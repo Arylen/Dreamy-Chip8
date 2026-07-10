@@ -37,6 +37,13 @@ FetchContent_MakeAvailable(spdlog SDL3)
 add_executable(
   dreamy_chip8
   src/main.cpp
+  src/core/Log.cpp
+)
+
+target_include_directories(
+  dreamy_chip8
+  PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
 
 target_compile_features(
