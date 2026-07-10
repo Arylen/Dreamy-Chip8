@@ -38,6 +38,7 @@ add_executable(
   dreamy_chip8
   src/main.cpp
   src/core/Log.cpp
+  src/window/AppWindow.cpp
 )
 
 target_include_directories(

@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-void Log::init() {
+void dc8::log::init() {
     auto console = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 
     console->set_pattern("[%H:%M:%S.%e] [%^%L%$] %v");

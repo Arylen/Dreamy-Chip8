@@ -1,7 +1,8 @@
 #pragma once
 
 #include "spdlog/spdlog.h"
-namespace Log {
+
+namespace dc8::log {
     void init();
 
     using spdlog::trace;

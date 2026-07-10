@@ -1,14 +1,19 @@
 #include "core/Log.h"
-#include <thread>
+#include "window/AppWindow.h"
 
 int main() {
-    Log::init();
+    dc8::log::init();
+    dc8::log::info("Dreamy CHIP-8 started.");
 
-    for (int i = 0; i < 1000; i++) {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        Log::info("Info?");
+    {
+        dc8::platform::AppWindow appWindow;
+        if (!appWindow.create()) {
+            return 1;
+        } else {
+            appWindow.run();
+        }
     }
 
-    Log::shutdown();
+    dc8::log::shutdown();
     return 0;
 }
