@@ -1,7 +1,7 @@
 #pragma once
 
+#include <SDL3/SDL_gpu.h>
 #include <SDL3/SDL_video.h>
-#include <SDL3/SDL_render.h>
 
 namespace dc8::platform {
     class AppWindow {
@@ -16,7 +16,8 @@ namespace dc8::platform {
         void run();
     private:
         SDL_Window* window_{nullptr};
-        SDL_Renderer* renderer_{nullptr};
-        SDL_Texture* displayTex_{nullptr};
+        SDL_GPUDevice* gpuDevice_{nullptr};
+
+        bool render();
     };
 }
