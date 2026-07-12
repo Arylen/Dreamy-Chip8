@@ -51,6 +51,7 @@ namespace dc8::platform {
             log::error("SDL3 GPU Device creation failed: {}", SDL_GetError());
             return false;
         }
+        log::info("SDL GPU Driver: {}", SDL_GetGPUDeviceDriver(gpuDevice_));
 
         if (!SDL_ClaimWindowForGPUDevice(gpuDevice_, window_)) {
             log::error("SDL GPU could not claim window: {}", SDL_GetError());
@@ -67,16 +68,13 @@ namespace dc8::platform {
         while (running) {
             SDL_Event event{};
 
-            if (!SDL_WaitEvent(&event)) {
-                log::error("SDL event wait failed: {}", SDL_GetError());
-                break;
-            }
-
-            if (event.type == SDL_EVENT_QUIT) {
-                running = false;
-            }
-            if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
-                running = false;
+            while (SDL_PollEvent(&event)) {
+                if (event.type == SDL_EVENT_QUIT) {
+                    running = false;
+                }
+                if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
+                    running = false;
+                }
             }
 
             if (running && !render()) {
