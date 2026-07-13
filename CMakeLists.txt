@@ -33,6 +33,8 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(spdlog SDL3)
 
+find_package(OpenGL REQUIRED)
+
 # Project Executable
 add_executable(
   dreamy_chip8
@@ -56,6 +58,7 @@ target_link_libraries(
   dreamy_chip8
   PRIVATE
     SDL3::SDL3
+    OpenGL::GL
     spdlog::spdlog
 )
 
