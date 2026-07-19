@@ -1,14 +1,26 @@
 #include "window/AppWindow.h"
+
 #include "SDL3/SDL_error.h"
 #include "SDL3/SDL_events.h"
 #include "SDL3/SDL_opengl.h"
 #include "SDL3/SDL_init.h"
 #include "SDL3/SDL_video.h"
+
+#include "imgui.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_sdl3.h"
+
 #include "core/Log.h"
+
 #include <utility>
 
 namespace dc8::platform {
     AppWindow::~AppWindow() {
+        if (ImGui::GetCurrentContext()) {
+            ImGui_ImplOpenGL3_Shutdown();
+            ImGui_ImplSDL3_Shutdown();
+            ImGui::DestroyContext();
+        }
         if (glContext_) {
             SDL_GL_DestroyContext(glContext_);
             glContext_ = nullptr;
@@ -57,6 +69,20 @@ namespace dc8::platform {
         log::info("OpenGL version: {}", (const char*)glGetString(GL_VERSION));
         log::info("OpenGL renderer: {}", (const char*)glGetString(GL_RENDERER));
 
+        log::info("Initializing ImGui...");
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigDpiScaleFonts = true;
+
+        ImGui::StyleColorsDark();
+
+        ImGui_ImplSDL3_InitForOpenGL(window_, glContext_);
+        ImGui_ImplOpenGL3_Init("#version 150");
+
+        log::info("AppWindow creation completed!");
+
         return true;
     }
 
@@ -66,6 +92,8 @@ namespace dc8::platform {
             SDL_Event event{};
 
             while (SDL_PollEvent(&event)) {
+                ImGui_ImplSDL3_ProcessEvent(&event);
+
                 if (event.type == SDL_EVENT_QUIT) {
                     running = false;
                 }
@@ -93,9 +121,25 @@ namespace dc8::platform {
             return false;
         }
 
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL3_NewFrame();
+        ImGui::NewFrame();
+
+        if (rootEntity_) {
+            rootEntity_->drawUi();
+        }
+
+        ImGui::Render();
+
         glViewport(0, 0, pixWidth, pixHeight);
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        if (rootEntity_) {
+            rootEntity_->draw();
+        }
+
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         if (!SDL_GL_SwapWindow(window_)) {
             log::error("OpenGL buffer swap failed: {}", SDL_GetError());

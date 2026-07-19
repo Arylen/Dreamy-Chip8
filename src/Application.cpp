@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "imgui.h"
 #include "core/Log.h"
 
 namespace dc8 {
@@ -19,6 +20,6 @@ namespace dc8 {
     }
 
     void Application::drawUi() {
-
+        ImGui::ShowDemoWindow();
     }
 }
