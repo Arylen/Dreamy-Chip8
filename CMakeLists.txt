@@ -41,6 +41,7 @@ add_executable(
   src/main.cpp
   src/core/Log.cpp
   src/window/AppWindow.cpp
+  src/Application.cpp
 )
 
 target_include_directories(

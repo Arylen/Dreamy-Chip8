@@ -5,6 +5,7 @@
 #include "SDL3/SDL_init.h"
 #include "SDL3/SDL_video.h"
 #include "core/Log.h"
+#include <utility>
 
 namespace dc8::platform {
     AppWindow::~AppWindow() {
@@ -31,16 +32,11 @@ namespace dc8::platform {
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-        #ifdef __APPLE__
-        log::info("Enabling MacOS OpenGL compat");
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-        #endif
-
         log::info("Creating SDL3 Window.");
         window_ = SDL_CreateWindow(
             "Dreamy CHIP-8",
             800, 600,
-            SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY
+            SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY
         );
         if (!window_) {
             log::error("SDL3 Window creation failed: {}", SDL_GetError());
@@ -78,6 +74,10 @@ namespace dc8::platform {
                 }
             }
 
+            if (rootEntity_) {
+                rootEntity_->update(0);
+            }
+
             if (running && !render()) {
                 running = false;
             }
@@ -85,7 +85,27 @@ namespace dc8::platform {
     }
 
     bool AppWindow::render() {
+        int pixWidth = 0;
+        int pixHeight = 0;
+
+        if (!SDL_GetWindowSizeInPixels(window_, &pixWidth, &pixHeight)) {
+            log::error("Could not get window pixel size: {}", SDL_GetError());
+            return false;
+        }
+
+        glViewport(0, 0, pixWidth, pixHeight);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        if (!SDL_GL_SwapWindow(window_)) {
+            log::error("OpenGL buffer swap failed: {}", SDL_GetError());
+            return false;
+        }
 
         return true;
+    }
+
+    void AppWindow::setRootEntity(std::unique_ptr<core::Entity> entity) {
+        rootEntity_ = std::move(entity);
     }
 }
