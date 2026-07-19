@@ -4,3 +4,6 @@
 [submodule "external/chip8-test-suite"]
 	path = external/chip8-test-suite
 	url = https://github.com/Timendus/chip8-test-suite.git
+[submodule "external/chip8-archive"]
+	path = external/chip8-archive
+	url = https://github.com/JohnEarnest/chip8Archive.git
