@@ -143,5 +143,6 @@ add_custom_target(
     run
     COMMAND $<TARGET_FILE:dreamy_chip8>
     DEPENDS dreamy_chip8 copy_runtime_data
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:dreamy_chip8>
     USES_TERMINAL
 )
