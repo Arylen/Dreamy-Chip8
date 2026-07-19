@@ -96,6 +96,43 @@ target_link_libraries(
     spdlog::spdlog
 )
 
+# Copy roms and metadata
+set(
+  ASSET_DIR
+  "$<TARGET_FILE_DIR:dreamy_chip8>/assets"
+)
+
+add_custom_target(
+  copy_runtime_data ALL
+
+  COMMAND
+    ${CMAKE_COMMAND} -E remove_directory
+    "${DREAMY_ASSET_DIR}/database"
+  COMMAND
+    ${CMAKE_COMMAND} -E remove_directory
+    "${DREAMY_ASSET_DIR}/roms/archive"
+  COMMAND
+    ${CMAKE_COMMAND} -E remove_directory
+    "${DREAMY_ASSET_DIR}/roms/tests"
+
+  COMMAND
+    ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/external/chip-8-database/database"
+    "${DREAMY_ASSET_DIR}/database"
+  COMMAND
+    ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/external/chip8-archive/roms"
+    "${DREAMY_ASSET_DIR}/roms/archive"
+  COMMAND
+    ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/external/chip8-test-suite/bin"
+    "${DREAMY_ASSET_DIR}/roms/tests"
+
+  DEPENDS dreamy_chip8
+  COMMENT "Building asset directory"
+  VERBATIM
+)
+
 if(MSVC)
     target_compile_options(dreamy_chip8 PRIVATE /W4 /permissive-)
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "^(AppleClang|Clang|GNU)$")
@@ -105,6 +142,6 @@ endif()
 add_custom_target(
     run
     COMMAND $<TARGET_FILE:dreamy_chip8>
-    DEPENDS dreamy_chip8
+    DEPENDS dreamy_chip8 copy_runtime_data
     USES_TERMINAL
 )
