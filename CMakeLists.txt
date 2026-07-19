@@ -98,7 +98,7 @@ target_link_libraries(
 
 # Copy roms and metadata
 set(
-  ASSET_DIR
+  DREAMY_ASSET_DIR
   "$<TARGET_FILE_DIR:dreamy_chip8>/assets"
 )
 
