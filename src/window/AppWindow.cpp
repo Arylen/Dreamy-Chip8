@@ -74,7 +74,14 @@ namespace dc8::platform {
         ImGui::CreateContext();
 
         ImGuiIO& io = ImGui::GetIO();
+
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+        io.ConfigViewportsNoDecoration = false;
+
         io.ConfigDpiScaleFonts = true;
+        io.ConfigDpiScaleViewports = true;
 
         ImGui::StyleColorsDark();
 
@@ -97,7 +104,10 @@ namespace dc8::platform {
                 if (event.type == SDL_EVENT_QUIT) {
                     running = false;
                 }
-                if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
+                if (
+                    event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED &&
+                    event.window.windowID == SDL_GetWindowID(window_)
+                ) {
                     running = false;
                 }
             }
@@ -134,6 +144,12 @@ namespace dc8::platform {
         app_.draw();
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            SDL_GL_MakeCurrent(window_, glContext_);
+        }
 
         if (!SDL_GL_SwapWindow(window_)) {
             log::error("OpenGL buffer swap failed: {}", SDL_GetError());

@@ -1,0 +1,12 @@
+#pragma once
+
+#include <cstdint>
+
+namespace dc8::core::emulation {
+    class Chip8VM {
+        public:
+            void reset();
+            void loadRomBytes(uint8_t data[], uint32_t len);
+            void cycle();
+    };
+}

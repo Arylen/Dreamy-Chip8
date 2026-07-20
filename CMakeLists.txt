@@ -70,13 +70,20 @@ target_link_libraries(
 # Project Executable
 add_executable(
   dreamy_chip8
+
+  # Core stuff
   src/main.cpp
   src/core/Log.cpp
   src/window/AppWindow.cpp
   src/Application.cpp
 
+  # Emulation
+
   # Ui Elements
   src/core/ui/MainMenuBar.cpp
+
+  # Ui Windows
+  src/core/ui/windows/LogWindow.cpp
 )
 
 target_include_directories(
