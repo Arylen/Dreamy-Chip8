@@ -15,7 +15,7 @@ namespace dc8 {
         uiElements_.push_back(std::make_unique<core::ui::windows::LogWindow>(state_));
     }
 
-    void Application::update(float dt) {
+    void Application::update(float) {
 
     }
 

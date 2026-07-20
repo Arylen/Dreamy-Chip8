@@ -7,6 +7,6 @@ namespace dc8::core {
         emulation::Chip8VM vm;
 
         // Window States
-        bool showLog;
+        bool showLog = true;
     };
 }

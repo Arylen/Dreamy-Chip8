@@ -78,6 +78,7 @@ add_executable(
   src/Application.cpp
 
   # Emulation
+  src/core/emulation/Chip8VM.cpp
 
   # Ui Elements
   src/core/ui/MainMenuBar.cpp
@@ -120,6 +121,9 @@ add_custom_target(
     "${DREAMY_ASSET_DIR}/database"
   COMMAND
     ${CMAKE_COMMAND} -E remove_directory
+    "${DREAMY_ASSET_DIR}/fonts"
+  COMMAND
+    ${CMAKE_COMMAND} -E remove_directory
     "${DREAMY_ASSET_DIR}/roms/archive"
   COMMAND
     ${CMAKE_COMMAND} -E remove_directory
@@ -137,6 +141,10 @@ add_custom_target(
     ${CMAKE_COMMAND} -E copy_directory
     "${CMAKE_CURRENT_SOURCE_DIR}/external/chip8-test-suite/bin"
     "${DREAMY_ASSET_DIR}/roms/tests"
+  COMMAND
+    ${CMAKE_COMMAND} -E copy_directory
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts"
+    "${DREAMY_ASSET_DIR}/fonts"
 
   DEPENDS dreamy_chip8
   COMMENT "Building asset directory"
