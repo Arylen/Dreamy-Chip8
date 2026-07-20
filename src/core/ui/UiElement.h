@@ -4,9 +4,10 @@
 namespace dc8::core::ui {
     class UiElement {
     public:
-        UiElement(AppState& state);
-        void drawUi();
-    private:
+        UiElement(AppState& state) : state_(state) {}
+        virtual ~UiElement() = default;
+        virtual void drawUi() = 0;
+    protected:
         AppState& state_;
     };
 }

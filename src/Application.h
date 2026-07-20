@@ -14,6 +14,6 @@ namespace dc8 {
         void drawUi();
     private:
         core::AppState state_;
-        std::vector<core::ui::UiElement> uiElements_;
+        std::vector<std::unique_ptr<core::ui::UiElement>> uiElements_;
     };
 }

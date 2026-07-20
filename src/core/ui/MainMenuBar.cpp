@@ -4,7 +4,7 @@
 #include "imgui.h"
 
 namespace dc8::core::ui {
-    MainMenuBar::MainMenuBar(AppState& state): UiElement(state), state_(state) {
+    MainMenuBar::MainMenuBar(AppState& state): UiElement(state) {
 
     }
 

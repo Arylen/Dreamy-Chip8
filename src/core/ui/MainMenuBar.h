@@ -8,7 +8,5 @@ namespace dc8::core::ui {
     public:
         MainMenuBar(AppState& state);
         void drawUi();
-    private:
-        AppState& state_;
     };
 }
