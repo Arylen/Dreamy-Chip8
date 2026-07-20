@@ -1,13 +1,12 @@
 #pragma once
 
-#include "core/Entity.h"
+#include "Application.h"
 #include <SDL3/SDL_video.h>
-#include <memory>
 
 namespace dc8::platform {
     class AppWindow {
     public:
-        AppWindow() = default;
+        AppWindow(Application& app);
         ~AppWindow();
 
         AppWindow(const AppWindow&) = delete;
@@ -15,11 +14,10 @@ namespace dc8::platform {
 
         bool create();
         void run();
-        void setRootEntity(std::unique_ptr<core::Entity> entity);
     private:
         SDL_Window* window_{nullptr};
         SDL_GLContext glContext_{nullptr};
-        std::unique_ptr<core::Entity> rootEntity_;
+        Application& app_;
 
         bool render();
     };

@@ -76,9 +76,7 @@ add_executable(
   src/Application.cpp
 
   # Ui Elements
-  src/core/ui/UiHost.cpp
   src/core/ui/MainMenuBar.cpp
-  src/core/ui/FilePickerHost.cpp
 )
 
 target_include_directories(

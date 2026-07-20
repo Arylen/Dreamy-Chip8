@@ -12,9 +12,9 @@
 
 #include "core/Log.h"
 
-#include <utility>
-
 namespace dc8::platform {
+    AppWindow::AppWindow(Application& app): app_(app) { }
+
     AppWindow::~AppWindow() {
         if (ImGui::GetCurrentContext()) {
             ImGui_ImplOpenGL3_Shutdown();
@@ -102,9 +102,7 @@ namespace dc8::platform {
                 }
             }
 
-            if (rootEntity_) {
-                rootEntity_->update(0);
-            }
+            app_.update(0);
 
             if (running && !render()) {
                 running = false;
@@ -125,9 +123,7 @@ namespace dc8::platform {
         ImGui_ImplSDL3_NewFrame();
         ImGui::NewFrame();
 
-        if (rootEntity_) {
-            rootEntity_->drawUi();
-        }
+        app_.drawUi();
 
         ImGui::Render();
 
@@ -135,9 +131,7 @@ namespace dc8::platform {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        if (rootEntity_) {
-            rootEntity_->draw();
-        }
+        app_.draw();
 
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -147,9 +141,5 @@ namespace dc8::platform {
         }
 
         return true;
-    }
-
-    void AppWindow::setRootEntity(std::unique_ptr<core::Entity> entity) {
-        rootEntity_ = std::move(entity);
     }
 }

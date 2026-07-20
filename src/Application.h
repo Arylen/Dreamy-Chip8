@@ -1,20 +1,19 @@
 #pragma once
 
-#include "core/Entity.h"
 #include "core/AppState.h"
-#include <memory>
+#include "core/ui/UiElement.h"
+
+#include <vector>
 
 namespace dc8 {
-    class Application : public core::Entity {
+    class Application {
     public:
         Application();
-        ~Application();
-        void update(float deltaTime);
+        void update(float dt);
         void draw();
         void drawUi();
     private:
         core::AppState state_;
-        std::unique_ptr<Entity> uiHost_;
-        std::unique_ptr<Entity> emulatorHost_;
+        std::vector<core::ui::UiElement> uiElements_;
     };
 }

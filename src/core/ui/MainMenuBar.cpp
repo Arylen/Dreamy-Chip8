@@ -1,17 +1,10 @@
 #include "MainMenuBar.h"
 #include "core/AppState.h"
+#include "core/ui/UiElement.h"
 #include "imgui.h"
 
 namespace dc8::core::ui {
-    MainMenuBar::MainMenuBar(AppState& state): state_(state) {
-
-    }
-
-    MainMenuBar::~MainMenuBar() {
-
-    }
-
-    void MainMenuBar::update(float deltaTime) {
+    MainMenuBar::MainMenuBar(AppState& state): UiElement(state), state_(state) {
 
     }
 
@@ -28,9 +21,5 @@ namespace dc8::core::ui {
             ImGui::EndMenu();
         }
         ImGui::EndMainMenuBar();
-    }
-
-    void MainMenuBar::draw() {
-
     }
 }
