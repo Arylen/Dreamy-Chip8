@@ -2,6 +2,9 @@
 
 #include "spdlog/spdlog.h"
 
+#include <vector>
+#include <string>
+
 namespace dc8::log {
     void init();
 
@@ -13,4 +16,6 @@ namespace dc8::log {
     using spdlog::critical;
 
     using spdlog::shutdown;
+
+    std::vector<std::string> getMessages();
 }

@@ -1,4 +1,7 @@
 #include "LogWindow.h"
+
+#include "core/Log.h"
+
 #include "imgui.h"
 
 namespace dc8::core::ui::windows {
@@ -9,7 +12,10 @@ namespace dc8::core::ui::windows {
         }
 
         if (ImGui::Begin("Logs")) {
-            ImGui::TextUnformatted("Logs Placeholder");
+            auto logs = log::getMessages();
+            for (const auto& logMsg : logs) {
+                ImGui::TextUnformatted(logMsg.c_str());
+            }
         }
         ImGui::End();
     }
