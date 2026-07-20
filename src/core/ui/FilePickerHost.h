@@ -2,17 +2,17 @@
 
 #include "core/AppState.h"
 #include "core/Entity.h"
-#include <memory>
-#include <vector>
+
 namespace dc8::core::ui {
-    class UiHost : public Entity {
+    class FilePickerHost: public Entity {
     public:
-        UiHost(AppState& state);
-        ~UiHost();
+    public:
+        FilePickerHost(AppState& state);
+        ~FilePickerHost();
         void update(float deltaTime);
         void drawUi();
         void draw();
     private:
-        std::vector<std::unique_ptr<Entity>> elements_;
+        AppState& state_;
     };
 }

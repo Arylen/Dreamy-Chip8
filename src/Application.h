@@ -1,6 +1,7 @@
 #pragma once
 
 #include "core/Entity.h"
+#include "core/AppState.h"
 #include <memory>
 
 namespace dc8 {
@@ -12,6 +13,7 @@ namespace dc8 {
         void draw();
         void drawUi();
     private:
+        core::AppState state_;
         std::unique_ptr<Entity> uiHost_;
         std::unique_ptr<Entity> emulatorHost_;
     };
