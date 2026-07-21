@@ -47,7 +47,7 @@ namespace dc8::platform {
         log::info("Creating SDL3 Window.");
         window_ = SDL_CreateWindow(
             "Dreamy CHIP-8",
-            800, 600,
+            1280, 800,
             SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY
         );
         if (!window_) {
@@ -81,6 +81,14 @@ namespace dc8::platform {
 
         ImGui_ImplSDL3_InitForOpenGL(window_, glContext_);
         ImGui_ImplOpenGL3_Init("#version 150");
+
+        ImGui::GetStyle().FontSizeBase = 16.0f;
+        ImFont* font = io.Fonts->AddFontFromFileTTF("assets/fonts/RobotoMono-Regular.ttf");
+        if (!font) {
+            log::error("Failed to load RobotoMono font");
+            return false;
+        }
+        io.FontDefault = font;
 
         log::info("AppWindow creation completed!");
 
