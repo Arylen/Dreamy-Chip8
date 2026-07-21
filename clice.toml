@@ -1,0 +1,6 @@
+[[rules]]
+patterns = ["**/*.{c,h,cc,hpp,cpp,cxx}"]
+append = [
+  "-isysroot",
+  "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+]
