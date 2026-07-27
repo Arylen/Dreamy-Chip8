@@ -5,6 +5,7 @@
 #include "core/ui/UiElement.h"
 
 #include "imgui.h"
+
 #include <SDL3/SDL_dialog.h>
 #include <SDL3/SDL_error.h>
 
@@ -15,6 +16,7 @@ namespace dc8::core::ui {
         if (ImGui::BeginMainMenuBar()) {
             if (ImGui::BeginMenu("File")) {
                 if (ImGui::MenuItem("Open ROM")) {
+                    // Lordy
                     constexpr SDL_DialogFileFilter romFilters[] = {
                         { "Chip-8 ROMs", "ch8;c8;sc8;xo8;bin" },
                         { "All Files", "*" }
