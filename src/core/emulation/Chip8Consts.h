@@ -1,7 +1,7 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
-#include <vector>
 
 namespace dc8::core::emulation {
     // Display stuffs
@@ -14,7 +14,7 @@ namespace dc8::core::emulation {
     constexpr uint16_t RomStartAddress  = 0x200;
     constexpr uint16_t FontStartAddress = 0x50;
 
-    constexpr std::vector<uint8_t> FontData ={
+    constexpr std::array<uint8_t, 80> FontData = {
        0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
        0x20, 0x60, 0x20, 0x20, 0x70, // 1
        0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
