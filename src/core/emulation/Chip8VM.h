@@ -32,6 +32,7 @@ namespace dc8::core::emulation {
         uint16_t getI() const { return i_; }
         uint8_t getDelayTimer() const { return dt_; }
         uint8_t getSoundTimer() const { return st_; }
+        uint8_t getCycleCount() const { return st_; }
         const std::array<uint8_t, 16> getV() const { return v_; }
         uint8_t getV(uint8_t idx) const { return v_[idx]; }
         const std::array<uint8_t, 4096>& getMem() const { return mem_; }
@@ -47,6 +48,7 @@ namespace dc8::core::emulation {
         std::array<uint8_t, 4096> mem_;
         std::array<uint8_t, 16> v_;
         std::array<uint8_t,  64 * 32> vram_;
+        uint64_t cycles_ = 0;
         uint16_t i_ = 0;
         uint16_t pc_ = 0;
         uint8_t dt_ = 0;

@@ -13,6 +13,7 @@ namespace dc8::core::ui::windows {
             ImGui::Text(" I: "); ImGui::SameLine(); ImGui::Text("%04X", state_.vm.getI());
             ImGui::Text("DT: "); ImGui::SameLine(); ImGui::Text("%04X", state_.vm.getDelayTimer());
             ImGui::Text("ST: "); ImGui::SameLine(); ImGui::Text("%04X", state_.vm.getSoundTimer());
+            ImGui::Text("CYCLES: "); ImGui::SameLine(); ImGui::Text(state_.vm.getCycleCount());
         }
 
         ImGui::End();
