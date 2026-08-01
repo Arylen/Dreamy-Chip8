@@ -22,6 +22,8 @@ namespace dc8::core::emulation {
         v_.fill(0);
         i_ = 0;
         pc_ = RomStartAddress;
+        st_ = 0;
+        dt_ = 0;
         loadFont();
     }
 
