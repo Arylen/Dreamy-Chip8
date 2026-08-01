@@ -9,7 +9,10 @@ namespace dc8::core::ui::windows {
 
     void CpuStateWindow::drawUi() {
         if (ImGui::Begin("CPU State")) {
-            ImGui::Text("PC: "); ImGui::SameLine(); ImGui::Text("%X4", state_.vm.getPc());
+            ImGui::Text("PC: "); ImGui::SameLine(); ImGui::Text("%04X", state_.vm.getPc());
+            ImGui::Text(" I: "); ImGui::SameLine(); ImGui::Text("%04X", state_.vm.getI());
+            ImGui::Text("DT: "); ImGui::SameLine(); ImGui::Text("%04X", state_.vm.getDelayTimer());
+            ImGui::Text("ST: "); ImGui::SameLine(); ImGui::Text("%04X", state_.vm.getSoundTimer());
         }
 
         ImGui::End();
