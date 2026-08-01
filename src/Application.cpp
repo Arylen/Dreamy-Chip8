@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "core/AppState.h"
 #include "core/ui/MainMenuBar.h"
+#include "core/ui/windows/CpuStateWindow.h"
 #include "core/ui/windows/LogWindow.h"
 #include <memory>
 
@@ -13,6 +14,7 @@ namespace dc8 {
 
         // Windows
         uiElements_.push_back(std::make_unique<core::ui::windows::LogWindow>(state_));
+        uiElements_.push_back(std::make_unique<core::ui::windows::CpuStateWindow>(state_));
     }
 
     void Application::update(float) {
