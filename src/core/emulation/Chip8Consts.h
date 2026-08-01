@@ -11,6 +11,9 @@ namespace dc8::core::emulation {
     constexpr int HiResHeight = 64;
     constexpr int MaxBufferSize = HiResWidth * HiResHeight;
 
+    // 1Mhz speed, used to calculate overall speed and timer behavior.
+    constexpr uint32_t TargetCyclesPerSecond = 1'000'000;
+
     constexpr uint16_t RomStartAddress  = 0x200;
     constexpr uint16_t FontStartAddress = 0x50;
 
