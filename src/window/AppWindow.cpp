@@ -103,11 +103,16 @@ namespace dc8::platform {
             while (SDL_PollEvent(&event)) {
                 ImGui_ImplSDL3_ProcessEvent(&event);
 
-                if (event.type == SDL_EVENT_QUIT) {
-                    running = false;
-                }
-                if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
-                    running = false;
+                switch (event.type) {
+                    case SDL_EVENT_QUIT:
+                    case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+                        running = false;
+                        break;
+                    case SDL_EVENT_WINDOW_RESIZED:
+                        log::info("Window Resize: {}x{}", event.window.data1, event.window.data2);
+                        break;
+                    default:
+                        break;
                 }
             }
 
