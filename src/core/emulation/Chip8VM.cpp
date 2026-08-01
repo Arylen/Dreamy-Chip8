@@ -17,6 +17,7 @@ namespace dc8::core::emulation {
     }
 
     void Chip8VM::reset() {
+        raiseException(Chip8Exception::NONE);
         mem_.fill(0);
         vram_.fill(0);
         v_.fill(0);
@@ -24,6 +25,7 @@ namespace dc8::core::emulation {
         pc_ = RomStartAddress;
         st_ = 0;
         dt_ = 0;
+        cycles_ = 0;
         loadFont();
     }
 
@@ -51,26 +53,26 @@ namespace dc8::core::emulation {
                 switch (op.getNN()) {
                     case 0x00E0: // CLS
                         vram_.fill(0);
-                        break;
+                        return;
                     default:
                         return raiseException(Chip8Exception::INVALID_OP_FAMILY);
                 }
                 break;
             case 0x1: // JMP NNN
                 pc_ = op.getNNN();
-                break;
+                return;
             case 0x6: // SET VX, NN
                 v_[op.getX()] = op.getNN();
-                break;
+                return;
             case 0x7: // ADD VX, NN
                 v_[op.getX()] += op.getNN();
-                break;
+                return;
             case 0xA: // SET I, NNN
                 i_ = op.getNNN();
-                break;
+                return;
             case 0xD: // DRW X, Y, N
                 drawSprite(v_.at(op.getX()), v_.at(op.getY()), op.getN());
-                break;
+                return;
             default:
                 return raiseException(Chip8Exception::INVALID_OP_FAMILY);
         }
