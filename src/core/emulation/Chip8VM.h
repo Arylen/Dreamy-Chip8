@@ -27,11 +27,11 @@ namespace dc8::core::emulation {
         uint16_t readMem16(uint16_t address) const;
 
         // Getters
-        uint16_t getPc() { return pc_; }
-        uint16_t getI() { return i_; }
-        uint8_t getV(uint8_t idx) { return v_.at(idx); }
-        std::array<uint8_t, 4096> getMem() { return mem_; }
-        std::array<uint8_t,  64 * 32> getVram() { return vram_; }
+        uint16_t getPc() const { return pc_; }
+        uint16_t getI() const { return i_; }
+        uint8_t getV(uint8_t idx) const { return v_.at(idx); }
+        std::array<uint8_t, 4096> getMem() const { return mem_; }
+        std::array<uint8_t,  64 * 32> getVram() const { return vram_; }
     private:
         void loadFont();
         void drawSprite(uint8_t x, uint8_t y, uint8_t n);
