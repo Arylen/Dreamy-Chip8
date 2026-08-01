@@ -4,6 +4,7 @@
 #include "core/emulation/Chip8Exception.h"
 #include "core/emulation/Chip8Op.h"
 #include <csignal>
+#include <cstddef>
 #include <cstdint>
 
 namespace dc8::core::emulation {
@@ -82,7 +83,7 @@ namespace dc8::core::emulation {
     }
 
     void Chip8VM::loadFont() {
-        for (int i = 0; i < FontData.size(); i++) {
+        for (size_t i = 0; i < FontData.size(); i++) {
             writeMem(FontStartAddress + i, FontData.at(i));
         }
     }
