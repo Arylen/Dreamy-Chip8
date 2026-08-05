@@ -4,6 +4,7 @@
 #include "core/emulation/Chip8Op.h"
 #include <array>
 #include <cstdint>
+#include <queue>
 #include <vector>
 
 namespace dc8::core::emulation {
@@ -33,7 +34,8 @@ namespace dc8::core::emulation {
         uint8_t getDelayTimer() const { return dt_; }
         uint8_t getSoundTimer() const { return st_; }
         uint8_t getCycleCount() const { return st_; }
-        const std::array<uint8_t, 16> getV() const { return v_; }
+        const std::vector<uint16_t>& getStack() const { return stack_; }
+        const std::array<uint8_t, 16>& getV() const { return v_; }
         uint8_t getV(uint8_t idx) const { return v_[idx]; }
         const std::array<uint8_t, 4096>& getMem() const { return mem_; }
         const std::array<uint8_t,  64 * 32>& getVram() const { return vram_; }
