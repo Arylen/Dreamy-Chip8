@@ -3,9 +3,7 @@
 #include "imgui.h"
 
 namespace dc8::core::ui::windows {
-    CpuStateWindow::CpuStateWindow(AppState& state) : UiElement(state) {
-
-    }
+    CpuStateWindow::CpuStateWindow(AppState& state) : UiElement(state) { }
 
     void CpuStateWindow::drawUi() {
         drawCpuReg();
