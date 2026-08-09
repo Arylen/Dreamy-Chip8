@@ -33,7 +33,7 @@ namespace dc8::core::emulation {
         uint16_t getI() const { return i_; }
         uint8_t getDelayTimer() const { return dt_; }
         uint8_t getSoundTimer() const { return st_; }
-        uint8_t getCycleCount() const { return st_; }
+        uint8_t getCycleCount() const { return cycles_; }
         const std::vector<uint16_t>& getStack() const { return stack_; }
         const std::array<uint8_t, 16>& getV() const { return v_; }
         uint8_t getV(uint8_t idx) const { return v_[idx]; }
