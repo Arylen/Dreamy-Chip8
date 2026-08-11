@@ -8,8 +8,6 @@ namespace dc8::core::ui::windows {
         CpuStateWindow(AppState& state);
         void drawUi() override;
     private:
-        void drawCpuReg();
-        void drawVReg();
-        void drawStack();
+        void drawCpuRegs();
     };
 }
