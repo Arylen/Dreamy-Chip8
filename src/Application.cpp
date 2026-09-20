@@ -3,6 +3,7 @@
 #include "core/ui/MainMenuBar.h"
 #include "core/ui/windows/CpuStateWindow.h"
 #include "core/ui/windows/LogWindow.h"
+#include "core/ui/windows/QuickCtrlWindow.h"
 #include <memory>
 
 namespace dc8 {
@@ -15,6 +16,7 @@ namespace dc8 {
         // Windows
         uiElements_.push_back(std::make_unique<core::ui::windows::LogWindow>(state_));
         uiElements_.push_back(std::make_unique<core::ui::windows::CpuStateWindow>(state_));
+        uiElements_.push_back(std::make_unique<core::ui::windows::QuickCtrlWindow>(state_));
     }
 
     void Application::update(float) {

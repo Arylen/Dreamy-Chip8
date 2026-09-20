@@ -35,6 +35,8 @@ namespace dc8::core::ui {
             }
             if (ImGui::BeginMenu("Windows")) {
                 ImGui::MenuItem("Logs", nullptr, &state_.showLog);
+                ImGui::MenuItem("CPU State", nullptr, &state_.showCpuState);
+                ImGui::MenuItem("Quick Controls", nullptr, &state_.showQuickControls);
                 ImGui::EndMenu();
             }
             ImGui::EndMainMenuBar();

@@ -8,5 +8,7 @@ namespace dc8::core {
 
         // Window States
         bool showLog = true;
+        bool showCpuState = true;
+        bool showQuickControls = true;
     };
 }

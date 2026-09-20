@@ -44,19 +44,4 @@ namespace dc8::core::ui::windows {
 
         ImGui::End();
     }
-
-    // void CpuStateWindow::drawStack() {
-    //     if (ImGui::Begin("Stack")) {
-    //         size_t stackSize = state_.vm.getStack().size();
-    //         if (stackSize == 0) {
-    //             ImGui::Text("STACK EMPTY");
-    //         }
-    //         for (size_t i = 0; i < stackSize; i++) {
-    //             ImGui::Text("%zu : ", i);
-    //             ImGui::SameLine();
-    //             ImGui::Text("%04X", state_.vm.getStack().front());
-    //         }
-    //     }
-    //     ImGui::End();
-    // }
 }

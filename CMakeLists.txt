@@ -86,6 +86,7 @@ add_executable(
   # Ui Windows
   src/core/ui/windows/LogWindow.cpp
   src/core/ui/windows/CpuStateWindow.cpp
+  src/core/ui/windows/QuickCtrlWindow.cpp
 )
 
 target_include_directories(
