@@ -1,5 +1,6 @@
 #include "core/Log.h"
 #include "spdlog/common.h"
+#include "spdlog/logger.h"
 
 #include <memory>
 #include <vector>
@@ -37,11 +38,11 @@ namespace dc8 {
     }
 
     bool log::hasLogLevel(spdlog::level::level_enum level) {
-
+        return spdlog::default_logger()->level() >= level;
     }
 
     void log::setLogLevel(spdlog::level::level_enum level) {
-
+        spdlog::default_logger()->set_level(level);
     }
 
     std::vector<std::string> log::getMessages() {
