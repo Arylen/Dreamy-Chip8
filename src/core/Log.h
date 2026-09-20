@@ -18,4 +18,6 @@ namespace dc8::log {
     using spdlog::shutdown;
 
     std::vector<std::string> getMessages();
+    bool hasLogLevel(spdlog::level::level_enum level);
+    void setLogLevel(spdlog::level::level_enum level);
 }

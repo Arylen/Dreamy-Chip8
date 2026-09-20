@@ -1,4 +1,5 @@
 #include "core/Log.h"
+#include "spdlog/common.h"
 
 #include <memory>
 #include <vector>
@@ -11,19 +12,20 @@
 namespace dc8 {
     namespace {
         std::shared_ptr<spdlog::sinks::ringbuffer_sink_mt> memSink;
+        std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> conSink;
     }
 
     void log::init() {
-        auto console = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        console->set_pattern("[%H:%M:%S.%e] [%^%L%$] %v");
-        console->set_level(spdlog::level::debug);
+        conSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+        conSink->set_pattern("[%H:%M:%S.%e] [%^%L%$] %v");
+        conSink->set_level(spdlog::level::debug);
 
         memSink = std::make_shared<spdlog::sinks::ringbuffer_sink_mt>(2000);
         memSink->set_pattern("[%H:%M:%S.%e] [%L] %v");
         memSink->set_level(spdlog::level::debug);
 
         std::vector<spdlog::sink_ptr> sinks {
-            console,
+            conSink,
             memSink
         };
 
@@ -32,6 +34,14 @@ namespace dc8 {
         logger->flush_on(spdlog::level::warn);
 
         spdlog::set_default_logger(logger);
+    }
+
+    bool log::hasLogLevel(spdlog::level::level_enum level) {
+
+    }
+
+    void log::setLogLevel(spdlog::level::level_enum level) {
+
     }
 
     std::vector<std::string> log::getMessages() {

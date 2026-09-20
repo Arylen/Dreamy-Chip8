@@ -5,6 +5,7 @@
 #include "core/ui/UiElement.h"
 
 #include "imgui.h"
+#include "spdlog/common.h"
 
 #include <SDL3/SDL_dialog.h>
 #include <SDL3/SDL_error.h>
@@ -65,7 +66,13 @@ namespace dc8::core::ui {
     void MainMenuBar::drawSettingsMenu() {
         if (ImGui::BeginMenu("Settings")) {
             if (ImGui::BeginMenu("Log Level")) {
-
+                ImGui::MenuItem("Trace", nullptr, state_.logLevel >= spdlog::level::trace);
+                ImGui::MenuItem("Debug", nullptr, state_.logLevel >= spdlog::level::debug);
+                ImGui::MenuItem("Info", nullptr, state_.logLevel >= spdlog::level::info);
+                ImGui::MenuItem("Warn", nullptr, state_.logLevel >= spdlog::level::warn);
+                ImGui::MenuItem("Error", nullptr, state_.logLevel >= spdlog::level::err);
+                ImGui::MenuItem("Critical", nullptr, state_.logLevel >= spdlog::level::critical);
+                ImGui::MenuItem("Off", nullptr, state_.logLevel >= spdlog::level::off);
                 ImGui::EndMenu();
             }
             ImGui::EndMenu();
