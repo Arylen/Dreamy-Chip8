@@ -43,6 +43,9 @@ namespace dc8::core::emulation {
         Chip8Op instruction {
             .raw = readMem16(pc_)
         };
+
+        log::trace("[VM_TRACE] {:04X}   {:02X} {:02X}", pc_, (instruction.raw & 0xFF00) >> 8, instruction.raw & 0xFF);
+
         pc_ += 2;
 
         execute(instruction);

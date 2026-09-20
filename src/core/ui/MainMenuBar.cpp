@@ -33,12 +33,8 @@ namespace dc8::core::ui {
                 }
                 ImGui::EndMenu();
             }
-            if (ImGui::BeginMenu("Windows")) {
-                ImGui::MenuItem("Logs", nullptr, &state_.showLog);
-                ImGui::MenuItem("CPU State", nullptr, &state_.showCpuState);
-                ImGui::MenuItem("Quick Controls", nullptr, &state_.showQuickControls);
-                ImGui::EndMenu();
-            }
+            drawWindowMenu();
+            drawSettingsMenu();
             ImGui::EndMainMenuBar();
         }
     }
@@ -55,5 +51,24 @@ namespace dc8::core::ui {
         }
 
         dc8::log::info("Selected ROM: {}", files[0]);
+    }
+
+    void MainMenuBar::drawWindowMenu() {
+        if (ImGui::BeginMenu("Windows")) {
+            ImGui::MenuItem("Logs", nullptr, &state_.showLog);
+            ImGui::MenuItem("CPU State", nullptr, &state_.showCpuState);
+            ImGui::MenuItem("Quick Controls", nullptr, &state_.showQuickControls);
+            ImGui::EndMenu();
+        }
+    }
+
+    void MainMenuBar::drawSettingsMenu() {
+        if (ImGui::BeginMenu("Settings")) {
+            if (ImGui::BeginMenu("Log Level")) {
+
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenu();
+        }
     }
 }

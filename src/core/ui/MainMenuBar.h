@@ -11,6 +11,8 @@ namespace dc8::core::ui {
     public:
         MainMenuBar(AppState& state);
         void drawUi() override;
+        void drawWindowMenu();
+        void drawSettingsMenu();
     private:
         static void SDLCALL onFileSelected(void*, const char* const* files, int);
     };
