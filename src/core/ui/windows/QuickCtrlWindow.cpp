@@ -16,10 +16,19 @@ namespace dc8::core::ui::windows {
             float width = (ImGui::GetContentRegionAvail().x - spacing * (amountOfButtons - 1)) / amountOfButtons;
             ImVec2 size (width, 0);
 
-            // TODO: Toggle between Play / Pause whenever VM state gets added.
-            ImGui::Button("Play", size); ImGui::SameLine();
-            ImGui::Button("Reset", size); ImGui::SameLine();
-            ImGui::Button("Step", size);
+            if (ImGui::Button(state_.vmIsPaused ? "Play" : "Pause", size)) {
+                state_.vmIsPaused = !state_.vmIsPaused;
+            }
+            ImGui::SameLine();
+
+            if (ImGui::Button("Reset", size)) {
+                state_.vm.reset();
+            }
+            ImGui::SameLine();
+
+            if (ImGui::Button("Step", size)) {
+                state_.vm.cycle();
+            }
         }
 
         ImGui::End();

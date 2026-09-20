@@ -6,6 +6,8 @@ namespace dc8::core {
         // Emulator
         emulation::Chip8VM vm;
 
+        bool vmIsPaused = true;
+
         // Window States
         bool showLog = true;
         bool showCpuState = true;
