@@ -37,5 +37,13 @@ namespace dc8::core::emulation {
         uint8_t getY() const {
             return (raw & 0x00F0) >> 4;
         }
+
+        uint8_t getHi() const {
+            return (raw & 0xFF00) >> 8;
+        }
+
+        uint8_t getLo() const {
+            return getNN();
+        }
     };
 }
