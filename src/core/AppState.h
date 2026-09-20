@@ -11,8 +11,6 @@ namespace dc8::core {
         // VM State
         bool vmIsPaused = true;
 
-        // App Behavior
-
         // Window States
         bool showLog = true;
         bool showCpuState = true;
