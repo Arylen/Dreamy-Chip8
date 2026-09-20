@@ -12,9 +12,15 @@ namespace dc8::core::ui::windows {
         }
 
         if (ImGui::Begin("Logs")) {
+            bool isAtBottom = ImGui::GetScrollY() >= ImGui::GetScrollMaxY();
+
             auto logs = log::getMessages();
             for (const auto& logMsg : logs) {
                 ImGui::TextUnformatted(logMsg.c_str());
+            }
+
+            if (isAtBottom) {
+                ImGui::SetScrollHereY(1.0f);
             }
         }
         ImGui::End();
