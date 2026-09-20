@@ -63,16 +63,22 @@ namespace dc8::core::ui {
         }
     }
 
+    void drawLogLevelMenuItem(const char* title, spdlog::level::level_enum level) {
+        if (ImGui::MenuItem(title, nullptr, log::hasLogLevel(level))) {
+            log::setLogLevel(level);
+        }
+    }
+
     void MainMenuBar::drawSettingsMenu() {
         if (ImGui::BeginMenu("Settings")) {
             if (ImGui::BeginMenu("Log Level")) {
-                ImGui::MenuItem("Trace", nullptr, state_.logLevel >= spdlog::level::trace);
-                ImGui::MenuItem("Debug", nullptr, state_.logLevel >= spdlog::level::debug);
-                ImGui::MenuItem("Info", nullptr, state_.logLevel >= spdlog::level::info);
-                ImGui::MenuItem("Warn", nullptr, state_.logLevel >= spdlog::level::warn);
-                ImGui::MenuItem("Error", nullptr, state_.logLevel >= spdlog::level::err);
-                ImGui::MenuItem("Critical", nullptr, state_.logLevel >= spdlog::level::critical);
-                ImGui::MenuItem("Off", nullptr, state_.logLevel >= spdlog::level::off);
+                drawLogLevelMenuItem("Trace", spdlog::level::trace);
+                drawLogLevelMenuItem("Debug", spdlog::level::debug);
+                drawLogLevelMenuItem("Info", spdlog::level::info);
+                drawLogLevelMenuItem("Warn", spdlog::level::warn);
+                drawLogLevelMenuItem("Error", spdlog::level::err);
+                drawLogLevelMenuItem("Critical", spdlog::level::critical);
+                drawLogLevelMenuItem("Off", spdlog::level::off);
                 ImGui::EndMenu();
             }
             ImGui::EndMenu();

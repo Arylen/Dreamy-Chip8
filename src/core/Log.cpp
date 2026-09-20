@@ -19,11 +19,11 @@ namespace dc8 {
     void log::init() {
         conSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         conSink->set_pattern("[%H:%M:%S.%e] [%^%L%$] %v");
-        conSink->set_level(spdlog::level::debug);
+        conSink->set_level(spdlog::level::trace);
 
         memSink = std::make_shared<spdlog::sinks::ringbuffer_sink_mt>(2000);
         memSink->set_pattern("[%H:%M:%S.%e] [%L] %v");
-        memSink->set_level(spdlog::level::debug);
+        memSink->set_level(spdlog::level::trace);
 
         std::vector<spdlog::sink_ptr> sinks {
             conSink,
@@ -38,7 +38,7 @@ namespace dc8 {
     }
 
     bool log::hasLogLevel(spdlog::level::level_enum level) {
-        return spdlog::default_logger()->level() >= level;
+        return spdlog::default_logger()->level() == level;
     }
 
     void log::setLogLevel(spdlog::level::level_enum level) {
