@@ -17,6 +17,7 @@ namespace dc8::core::emulation {
     }
 
     void Chip8VM::reset() {
+        log::info("VM is resetting");
         raiseException(Chip8Exception::NONE);
         mem_.fill(0);
         vram_.fill(0);
