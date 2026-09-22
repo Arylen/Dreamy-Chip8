@@ -17,7 +17,9 @@ namespace dc8::core::emulation {
             case 0x2: return std::format("CALL {:04X}", op.getNNN());
             case 0x3: return std::format("SE   V{:X}, {:02X}", op.getX(), op.getNN());
             case 0x4: return std::format("SNE  V{:X}, {:02X}", op.getX(), op.getNN());
-            case 0x5: return std::format("SE   V{:X}, V{:X}",  op.getX(), op.getY());
+            case 0x5:
+                if (op.getN() == 0x0) return std::format("SE   V{:X}, V{:X}",  op.getX(), op.getY());
+                break;
             case 0x6: return std::format("LD   V{:X}, {:02X}", op.getX(), op.getNN());
             case 0x7: return std::format("ADD  V{:X}, {:02X}", op.getX(), op.getNN());
             case 0x8:
