@@ -12,7 +12,7 @@ namespace dc8::core::emulation {
             case 0x0:
                 if (op.raw == 0x00E0) return std::format("CLS");
                 if (op.raw == 0x00EE) return std::format("RET");
-                return std::format("SYS  {:04X}", op.NNN);
+                return std::format("SYS  {:04X}", op.getNNN());
             case 0x1: return std::format("JP   {:04X}", op.getNNN());
             case 0x2: return std::format("CALL {:04X}", op.getNNN());
             case 0x3: return std::format("SE   V{:X}, {:02X}", op.getX(), op.getNN());
