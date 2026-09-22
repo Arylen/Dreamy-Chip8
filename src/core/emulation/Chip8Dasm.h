@@ -53,7 +53,7 @@ namespace dc8::core::emulation {
                 if (op.getNN() == 0x29) return std::format("LD   F,  V{:X}", op.getX());
                 if (op.getNN() == 0x33) return std::format("LD   B,  V{:X}", op.getX());
                 if (op.getNN() == 0x55) return std::format("LD   @I, V{:X}", op.getX());
-                if (op.getNN() == 0x55) return std::format("LD   V{:X}, @I", op.getX());
+                if (op.getNN() == 0x65) return std::format("LD   V{:X}, @I", op.getX());
                 break;
         }
 
