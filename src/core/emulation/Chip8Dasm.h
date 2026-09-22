@@ -39,7 +39,7 @@ namespace dc8::core::emulation {
             case 0xA: return std::format("LD   I,  {:03X}", op.getNNN());
             case 0xB: return std::format("JP   V0, {:03X}", op.getNNN());
             case 0xC: return std::format("RND  V{:X}, {:02X}", op.getX(), op.getNN());
-            case 0xD: return std::format("DRW  V{:X}, V{:X}",  op.getX(), op.getY());
+            case 0xD: return std::format("DRW  V{:X}, V{:X}, {:X}", op.getX(), op.getY(), op.getN());
             case 0xE:
                 if (op.getNN() == 0x9E) return std::format("SKP  V{:X}", op.getX());
                 if (op.getNN() == 0xA1) return std::format("SKNP V{:X}", op.getX());
