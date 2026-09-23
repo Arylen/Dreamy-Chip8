@@ -49,6 +49,16 @@ if (BUILD_TESTING)
   )
 
   FetchContent_MakeAvailable(Catch2)
+
+  add_executable(dreamy_chip8_tests
+    tests/Chip8OpTests.cpp
+  )
+
+  target_include_directories(dreamy_chip8_tests PRIVATE cxx_std_20)
+
+  target_link_libraries(dreamy_chip8_tests PRIVATE
+    Catch2::Catch2WithMain
+  )
 endif()
 
 find_package(OpenGL REQUIRED)
