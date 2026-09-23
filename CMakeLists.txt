@@ -52,6 +52,7 @@ if (BUILD_TESTING)
 
   add_executable(dreamy_chip8_tests
     tests/Chip8OpTests.cpp
+    tests/Chip8VmInitTests.cpp
   )
 
   target_include_directories(dreamy_chip8_tests PRIVATE
