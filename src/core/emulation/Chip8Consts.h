@@ -16,6 +16,7 @@ namespace dc8::core::emulation {
 
     constexpr uint16_t RomStartAddress  = 0x200;
     constexpr uint16_t FontStartAddress = 0x50;
+    constexpr uint16_t FontEndAddress = FontStartAddress + 80;
 
     constexpr std::array<uint8_t, 80> FontData = {
        0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
