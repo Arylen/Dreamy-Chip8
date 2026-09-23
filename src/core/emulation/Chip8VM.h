@@ -29,7 +29,7 @@ namespace dc8::core::emulation {
         uint16_t readMem16(uint16_t address) const;
 
         // Getters
-        uint16_t getPc() const { return pc_; }
+        uint16_t getPC() const { return pc_; }
         uint16_t getI() const { return i_; }
         uint8_t getDelayTimer() const { return dt_; }
         uint8_t getSoundTimer() const { return st_; }
