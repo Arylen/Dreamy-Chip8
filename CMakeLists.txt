@@ -63,6 +63,10 @@ if (BUILD_TESTING)
   target_link_libraries(dreamy_chip8_tests PRIVATE
     Catch2::Catch2WithMain
   )
+
+  list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/extras")
+  include(Catch)
+  catch_discover_tests(dreamy_chip8_tests)
 endif()
 
 find_package(OpenGL REQUIRED)
