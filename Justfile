@@ -10,7 +10,8 @@ build config=default_config: (configure config)
 run config=default_config: (build config)
     cmake --build {{build_dir}} --config {{config}} --target run
 
-test config=default_config: (build config)
+test config=default_config: (configure config)
+    cmake --build {{build_dir}} --config {{config}} --target dreamy_chip8_tests --parallel
     ctest --test-dir {{build_dir}} -C {{config}} --output-on-failure
 
 clean:
