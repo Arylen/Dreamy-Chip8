@@ -53,6 +53,8 @@ if (BUILD_TESTING)
   add_executable(dreamy_chip8_tests
     tests/Chip8OpTests.cpp
     tests/Chip8VmInitTests.cpp
+
+    src/core/emulation/Chip8VM.cpp
   )
 
   target_include_directories(dreamy_chip8_tests PRIVATE
@@ -63,6 +65,7 @@ if (BUILD_TESTING)
 
   target_link_libraries(dreamy_chip8_tests PRIVATE
     Catch2::Catch2WithMain
+    spdlog::spdlog
   )
 
   list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/extras")
