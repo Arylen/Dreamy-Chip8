@@ -53,6 +53,7 @@ if (BUILD_TESTING)
   add_executable(dreamy_chip8_tests
     tests/Chip8OpTests.cpp
     tests/Chip8VmInitTests.cpp
+    tests/Chip8DasmTests.cpp
 
     src/core/emulation/Chip8VM.cpp
   )
