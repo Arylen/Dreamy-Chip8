@@ -4,7 +4,7 @@
 #include "core/emulation/Chip8Consts.h"
 #include "core/emulation/Chip8VM.h"
 
-TEST_CASE("PC inits to 0", "[Chip8VM]") {
+TEST_CASE("PC inits to 0x200", "[Chip8VM]") {
     dc8::core::emulation::Chip8VM vm;
     REQUIRE(vm.getPC() == dc8::core::emulation::RomStartAddress);
 }
@@ -29,7 +29,7 @@ TEST_CASE("SoundTimer inits to 0", "[Chip8VM]") {
     REQUIRE(vm.getSoundTimer() == 0);
 }
 
-TEST_CASE("Memory inits to all 0", "[Chip8VM]") {
+TEST_CASE("Memory inits to all 0, except font", "[Chip8VM]") {
     constexpr uint8_t EXPECTED = 0;
 
     constexpr uint16_t FONT_START = dc8::core::emulation::FontStartAddress;
