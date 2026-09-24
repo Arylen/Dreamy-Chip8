@@ -41,26 +41,12 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(spdlog SDL3 imgui)
 
 set(EMU_CORE_SOURCES
-  # Core stuff
-  src/main.cpp
-  src/core/Log.cpp
-  src/window/AppWindow.cpp
-  src/Application.cpp
-
   # Emulation
   src/core/emulation/Chip8VM.cpp
-
-  # Ui Elements
-  src/core/ui/MainMenuBar.cpp
-
-  # Ui Windows
-  src/core/ui/windows/LogWindow.cpp
-  src/core/ui/windows/CpuStateWindow.cpp
-  src/core/ui/windows/QuickCtrlWindow.cpp
 )
 
 set(EMU_CORE_DEPS
-
+  spdlog::spdlog
 )
 
 if (BUILD_TESTING)
@@ -78,7 +64,7 @@ if (BUILD_TESTING)
     tests/Chip8VmInitTests.cpp
     tests/Chip8DasmTests.cpp
 
-    src/core/emulation/Chip8VM.cpp
+    ${EMU_CORE_SOURCES}
   )
 
   target_include_directories(dreamy_chip8_tests PRIVATE
@@ -126,7 +112,22 @@ target_link_libraries(
 
 # Project Executable
 add_executable(dreamy_chip8
+  src/main.cpp
+
   ${EMU_CORE_SOURCES}
+
+  # Core stuff
+  src/core/Log.cpp
+  src/window/AppWindow.cpp
+  src/Application.cpp
+
+  # Ui Windows
+  src/core/ui/windows/LogWindow.cpp
+  src/core/ui/windows/CpuStateWindow.cpp
+  src/core/ui/windows/QuickCtrlWindow.cpp
+
+  # Ui Elements
+  src/core/ui/MainMenuBar.cpp
 )
 
 target_include_directories(dreamy_chip8
@@ -145,7 +146,7 @@ target_link_libraries(
     dreamy_imgui
     SDL3::SDL3
     OpenGL::GL
-    spdlog::spdlog
+    ${EMU_CORE_DEPS}
 )
 
 # Copy roms and metadata
