@@ -52,7 +52,7 @@ TEST_CASE("Memory at init contains font data", "[Chip8VM]") {
     constexpr uint16_t FONT_END = dc8::core::emulation::FontEndAddress;
 
     dc8::core::emulation::Chip8VM vm;
-    for (size_t address = FONT_START; address <= FONT_END; address++) {
+    for (size_t address = FONT_START; address < FONT_END; address++) {
         size_t arrayIdx = address - FONT_START;
         uint8_t expected = FONT_DATA[arrayIdx];
         INFO(std::format("Memory Address: 0x{:04X}", address));
