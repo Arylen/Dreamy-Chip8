@@ -45,3 +45,18 @@ TEST_CASE("Memory inits to all 0, except font", "[Chip8VM]") {
         REQUIRE(vm.getMem()[address] == EXPECTED);
     }
 }
+
+TEST_CASE("Memory at init contains font data", "[Chip8VM]") {
+    constexpr std::array<uint8_t, 80> FONT_DATA = dc8::core::emulation::FontData;
+    constexpr uint16_t FONT_START = dc8::core::emulation::FontStartAddress;
+    constexpr uint16_t FONT_END = dc8::core::emulation::FontEndAddress;
+
+    dc8::core::emulation::Chip8VM vm;
+    for (size_t address = FONT_START; address <= FONT_END; address++) {
+        size_t arrayIdx = address - FONT_START;
+        uint8_t expected = FONT_DATA[arrayIdx];
+        INFO(std::format("Memory Address: 0x{:04X}", address));
+        CAPTURE(address, arrayIdx, expected);
+        REQUIRE(vm.getMem()[address] == expected);
+    }
+}
