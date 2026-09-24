@@ -40,6 +40,29 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(spdlog SDL3 imgui)
 
+set(EMU_CORE_SOURCES
+  # Core stuff
+  src/main.cpp
+  src/core/Log.cpp
+  src/window/AppWindow.cpp
+  src/Application.cpp
+
+  # Emulation
+  src/core/emulation/Chip8VM.cpp
+
+  # Ui Elements
+  src/core/ui/MainMenuBar.cpp
+
+  # Ui Windows
+  src/core/ui/windows/LogWindow.cpp
+  src/core/ui/windows/CpuStateWindow.cpp
+  src/core/ui/windows/QuickCtrlWindow.cpp
+)
+
+set(EMU_CORE_DEPS
+
+)
+
 if (BUILD_TESTING)
   FetchContent_Declare(
     Catch2
@@ -102,29 +125,11 @@ target_link_libraries(
 )
 
 # Project Executable
-add_executable(
-  dreamy_chip8
-
-  # Core stuff
-  src/main.cpp
-  src/core/Log.cpp
-  src/window/AppWindow.cpp
-  src/Application.cpp
-
-  # Emulation
-  src/core/emulation/Chip8VM.cpp
-
-  # Ui Elements
-  src/core/ui/MainMenuBar.cpp
-
-  # Ui Windows
-  src/core/ui/windows/LogWindow.cpp
-  src/core/ui/windows/CpuStateWindow.cpp
-  src/core/ui/windows/QuickCtrlWindow.cpp
+add_executable(dreamy_chip8
+  ${EMU_CORE_SOURCES}
 )
 
-target_include_directories(
-  dreamy_chip8
+target_include_directories(dreamy_chip8
   PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
 )
