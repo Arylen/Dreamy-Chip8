@@ -64,11 +64,21 @@ TEST_CASE(NAME("SNE  VX, NN"), TAG) {
 }
 
 TEST_CASE(NAME("SE   VX, VY"), TAG) {
+    for (uint8_t r1 = 0; r1 <= 0x0F; r1++) {
+        for (uint8_t r2 = 0; r2 <= 0x0F; r2++) {
+            uint16_t instruction = 0x5000 | (r1 << 8) | (r2 << 4);
+            CAPTURE(instruction, r1, r2);
+            REQUIRE(DASM(instruction) == std::format("SE   V{:X}, V{:X}", r1, r2));
+        }
+    }
+}
+
+TEST_CASE(NAME("LD   VX, NN"), TAG) {
     for (uint8_t reg = 0; reg <= 0x0F; reg++) {
         for (uint16_t nn = 0; nn <= 0xFF; nn++) {
-            uint16_t instruction = 0x4000 | (reg << 8) | nn;
+            uint16_t instruction = 0x6000 | (reg << 8) | nn;
             CAPTURE(instruction, reg, nn);
-            REQUIRE(DASM(instruction) == std::format("SNE  V{:X}, {:02X}", reg, nn));
+            REQUIRE(DASM(instruction) == std::format("LD   V{:X}, {:02X}", reg, nn));
         }
     }
 }
