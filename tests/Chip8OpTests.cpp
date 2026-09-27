@@ -1,7 +1,11 @@
 #include <catch2/catch_test_macros.hpp>
 #include "core/emulation/Chip8Op.h"
 
-TEST_CASE("Chip8Op Decodes X", "[Chip8Op]") {
+#define OP dc8::core::emulation::Chip8Op
+constexpr const char* TAG = "DECODE";
+#define NAME(name) std::format("[{}] {}", TAG, #name)
+
+TEST_CASE(NAME("X"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
@@ -9,7 +13,7 @@ TEST_CASE("Chip8Op Decodes X", "[Chip8Op]") {
     REQUIRE(op.getX() == 0x2);
 }
 
-TEST_CASE("Chip8Op Decodes Y", "[Chip8Op]") {
+TEST_CASE(NAME("Y"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
@@ -17,7 +21,7 @@ TEST_CASE("Chip8Op Decodes Y", "[Chip8Op]") {
     REQUIRE(op.getY() == 0x3);
 }
 
-TEST_CASE("Chip8Op Decodes N", "[Chip8Op]") {
+TEST_CASE(NAME("N"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
@@ -25,7 +29,7 @@ TEST_CASE("Chip8Op Decodes N", "[Chip8Op]") {
     REQUIRE(op.getN() == 0x4);
 }
 
-TEST_CASE("Chip8Op Decodes NN", "[Chip8Op]") {
+TEST_CASE(NAME("NN"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
@@ -33,7 +37,7 @@ TEST_CASE("Chip8Op Decodes NN", "[Chip8Op]") {
     REQUIRE(op.getNN() == 0x34);
 }
 
-TEST_CASE("Chip8Op Decodes NNN", "[Chip8Op]") {
+TEST_CASE(NAME("NNN"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
@@ -41,7 +45,7 @@ TEST_CASE("Chip8Op Decodes NNN", "[Chip8Op]") {
     REQUIRE(op.getNNN() == 0x234);
 }
 
-TEST_CASE("Chip8Op Decodes Hi Byte", "[Chip8Op]") {
+TEST_CASE(NAME("Hi Byte"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
@@ -49,7 +53,7 @@ TEST_CASE("Chip8Op Decodes Hi Byte", "[Chip8Op]") {
     REQUIRE(op.getHi() == 0x12);
 }
 
-TEST_CASE("Chip8Op Decodes Lo Byte", "[Chip8Op]") {
+TEST_CASE(NAME("Lo Byte"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
@@ -57,7 +61,7 @@ TEST_CASE("Chip8Op Decodes Lo Byte", "[Chip8Op]") {
     REQUIRE(op.getLo() == 0x34);
 }
 
-TEST_CASE("Chip8Op Decodes Family", "[Chip8Op]") {
+TEST_CASE(NAME("Family"), TAG) {
     const dc8::core::emulation::Chip8Op op {
         .raw = 0x1234,
     };
