@@ -74,6 +74,16 @@ TEST_CASE(NAME("SE   VX, VY"), TAG) {
     }
 }
 
+TEST_CASE(NAME("UNK  5X YN"), TAG) {
+    for (uint16_t nnn = 0; nnn <= 0xFF; nnn++) {
+        if ((nnn & 0xF) == 0x0)
+            continue;
+        uint16_t instruction = 0x5000 | nnn;
+        CAPTURE(instruction, nnn);
+        REQUIRE(DASM(instruction) == std::format("UNK  {:02X} {:02X}", (instruction & 0xFF00) >> 8 , (instruction & 0xFF)));
+    }
+}
+
 TEST_CASE(NAME("LD   VX, NN"), TAG) {
     for (uint8_t reg = 0; reg <= 0x0F; reg++) {
         for (uint16_t nn = 0; nn <= 0xFF; nn++) {
