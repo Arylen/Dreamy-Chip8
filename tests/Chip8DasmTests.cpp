@@ -220,21 +220,17 @@ TEST_CASE(NAME("SNE  VX, VY"), TAG) {
 }
 
 TEST_CASE(NAME("UNK  9X YN"), TAG) {
-    for (uint8_t r1 = 0; r1 <= 0x0F; r1++) {
-        for (uint8_t r2 = 0; r2 <= 0x0F; r2++) {
-            for (uint8_t n = 0; n <= 0x0F; n++) {
-                if (n == 0x00)
-                    continue;
-                uint16_t instruction = 0x9000 | (r1 << 8) | (r2 << 4) | n;
-                CAPTURE(instruction, r1, r2, n);
-                REQUIRE(DASM(instruction) == std::format("UNK  {:02X} {:02X}", (instruction & 0xFF00) >> 8 , (instruction & 0xFF)));
-            }
-        }
+    for (uint16_t nnn = 0; nnn <= 0x0F; nnn++) {
+        if ((nnn & 0xF) == 0x00)
+            continue;
+        uint16_t instruction = 0x9000 | nnn;
+        CAPTURE(instruction, nnn);
+        REQUIRE(DASM(instruction) == std::format("UNK  {:02X} {:02X}", (instruction & 0xFF00) >> 8 , (instruction & 0xFF)));
     }
 }
 
 TEST_CASE(NAME("LD   I,  NNN"), TAG) {
-    for (uint8_t nnn = 0; nnn <= 0x0F; nnn++) {
+    for (uint16_t nnn = 0; nnn <= 0xFFF; nnn++) {
         uint16_t instruction = 0xA000 | nnn;
         CAPTURE(instruction, nnn);
         REQUIRE(DASM(instruction) == std::format("LD   I,  {:03X}", nnn));
@@ -289,7 +285,7 @@ TEST_CASE(NAME("SKNP VX"), TAG) {
 
 TEST_CASE(NAME("UNK  EX NN"), TAG) {
     for (uint8_t x = 0; x <= 0x0F; x++) {
-        for (uint16_t nn = 0; nn <= 0x0F; nn++) {
+        for (uint16_t nn = 0; nn <= 0xFF; nn++) {
             if (nn == 0x9E || nn == 0xA1)
                 continue;
             uint16_t instruction = 0xE000 | (x << 8) | nn;
