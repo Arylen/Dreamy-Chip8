@@ -6,8 +6,8 @@
 #include <algorithm>
 
 #define DASM dc8::core::emulation::disassembleInstruction
-constexpr const char* TAG = "DASM";
-#define NAME(name) std::format("[{}] {}", TAG, #name)
+constexpr const char* TAG = "[DASM]";
+#define NAME(name) std::format("{} {}", TAG, #name)
 
 TEST_CASE(NAME("CLS"), TAG) {
     REQUIRE(DASM(0x00E0) == "CLS");
