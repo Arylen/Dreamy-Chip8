@@ -238,7 +238,7 @@ TEST_CASE(NAME("LD   I,  NNN"), TAG) {
 }
 
 TEST_CASE(NAME("JP   V0, NNN"), TAG) {
-    for (uint8_t nnn = 0; nnn <= 0x0F; nnn++) {
+    for (uint16_t nnn = 0; nnn <= 0xFFF; nnn++) {
         uint16_t instruction = 0xB000 | nnn;
         CAPTURE(instruction, nnn);
         REQUIRE(DASM(instruction) == std::format("JP   V0, {:03X}", nnn));
