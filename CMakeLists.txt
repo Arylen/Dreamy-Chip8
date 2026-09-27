@@ -80,7 +80,13 @@ if (BUILD_TESTING)
 
   list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/extras")
   include(Catch)
-  catch_discover_tests(dreamy_chip8_tests)
+  # catch_discover_tests(dreamy_chip8_tests)
+  foreach(tag IN ITEMS Chip8Op Chip8VM Chip8Dasm)
+    catch_discover_tests(dreamy_chip8_tests
+      TEST_SPEC   "[${tag}]"
+      TEST_SUFFIX " [${tag}]"
+    )
+  endforeach()
 endif()
 
 find_package(OpenGL REQUIRED)
