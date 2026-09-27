@@ -75,7 +75,7 @@ TEST_CASE(NAME("SE   VX, VY"), TAG) {
 }
 
 TEST_CASE(NAME("UNK  5X YN"), TAG) {
-    for (uint16_t nnn = 0; nnn <= 0xFF; nnn++) {
+    for (uint16_t nnn = 0; nnn <= 0xFFF; nnn++) {
         if ((nnn & 0xF) == 0x0)
             continue;
         uint16_t instruction = 0x5000 | nnn;
@@ -220,7 +220,7 @@ TEST_CASE(NAME("SNE  VX, VY"), TAG) {
 }
 
 TEST_CASE(NAME("UNK  9X YN"), TAG) {
-    for (uint16_t nnn = 0; nnn <= 0x0F; nnn++) {
+    for (uint16_t nnn = 0; nnn <= 0xFFF; nnn++) {
         if ((nnn & 0xF) == 0x00)
             continue;
         uint16_t instruction = 0x9000 | nnn;
