@@ -3,6 +3,7 @@
 #include "core/emulation/Chip8Dasm.h"
 #include <cstdint>
 #include <format>
+#include <algorithm>
 
 #define DASM dc8::core::emulation::disassembleInstruction
 constexpr const char* TAG = "DASM";
@@ -357,5 +358,28 @@ TEST_CASE(NAME("LD   VX, @I"), TAG) {
         uint16_t instruction = 0xF065 | (x << 8);
         CAPTURE(instruction, x);
         REQUIRE(DASM(instruction) == std::format("LD   V{:X}, @I", x));
+    }
+}
+
+TEST_CASE(NAME("UNK  FX NN"), TAG) {
+    constexpr std::array<uint8_t, 9> validValues = {
+        0x07,
+        0x0A,
+        0x15,
+        0x18,
+        0x1E,
+        0x29,
+        0x33,
+        0x55,
+        0x65,
+    };
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        for (uint16_t nn = 0; nn <= 0xFF; nn++) {
+            if (std::ranges::find(validValues, nn) != validValues.end())
+                continue;
+            uint16_t instruction = 0xF000 | (x << 8) | nn;
+            CAPTURE(instruction, x, nn);
+            REQUIRE(DASM(instruction) == std::format("UNK  {:02X} {:02X}", (instruction & 0xFF00) >> 8 , (instruction & 0xFF)));
+        }
     }
 }
