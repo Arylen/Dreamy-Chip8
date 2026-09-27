@@ -197,3 +197,165 @@ TEST_CASE(NAME("SHL  VX, VY"), TAG) {
         }
     }
 }
+
+TEST_CASE(NAME("SNE  VX, VY"), TAG) {
+    for (uint8_t r1 = 0; r1 <= 0x0F; r1++) {
+        for (uint8_t r2 = 0; r2 <= 0x0F; r2++) {
+            uint16_t instruction = 0x9000 | (r1 << 8) | (r2 << 4);
+            CAPTURE(instruction, r1, r2);
+            REQUIRE(DASM(instruction) == std::format("SNE  V{:X}, V{:X}", r1, r2));
+        }
+    }
+}
+
+TEST_CASE(NAME("UNK  9X YN"), TAG) {
+    for (uint8_t r1 = 0; r1 <= 0x0F; r1++) {
+        for (uint8_t r2 = 0; r2 <= 0x0F; r2++) {
+            for (uint8_t n = 0; n <= 0x0F; n++) {
+                if (n == 0x00)
+                    continue;
+                uint16_t instruction = 0x9000 | (r1 << 8) | (r2 << 4) | n;
+                CAPTURE(instruction, r1, r2, n);
+                REQUIRE(DASM(instruction) == std::format("UNK  {:02X} {:02X}", (instruction & 0xFF00) >> 8 , (instruction & 0xFF)));
+            }
+        }
+    }
+}
+
+TEST_CASE(NAME("LD   I,  NNN"), TAG) {
+    for (uint8_t nnn = 0; nnn <= 0x0F; nnn++) {
+        uint16_t instruction = 0xA000 | nnn;
+        CAPTURE(instruction, nnn);
+        REQUIRE(DASM(instruction) == std::format("LD   I,  {:03X}", nnn));
+    }
+}
+
+TEST_CASE(NAME("JP   V0, NNN"), TAG) {
+    for (uint8_t nnn = 0; nnn <= 0x0F; nnn++) {
+        uint16_t instruction = 0xB000 | nnn;
+        CAPTURE(instruction, nnn);
+        REQUIRE(DASM(instruction) == std::format("JP   V0, {:03X}", nnn));
+    }
+}
+
+TEST_CASE(NAME("RND  VX, NN"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        for (uint16_t nn = 0; nn <= 0xFF; nn++) {
+            uint16_t instruction = 0xC000 | (x << 8) | nn;
+            CAPTURE(instruction, x, nn);
+            REQUIRE(DASM(instruction) == std::format("RND  V{:X}, {:02X}", x, nn));
+        }
+    }
+}
+
+TEST_CASE(NAME("DRW  VX, VY, N"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        for (uint8_t y = 0; y <= 0x0F; y++) {
+            for (uint8_t n = 0; n <= 0x0F; n++) {
+                uint16_t instruction = 0xD000 | (x << 8) | (y << 4) | n;
+                CAPTURE(instruction, x, n);
+                REQUIRE(DASM(instruction) == std::format("DRW  V{:X}, V{:X}, {:X}", x, y, n));
+            }
+        }
+    }
+}
+
+TEST_CASE(NAME("SKP  VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xE09E | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("SKP  V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("SKNP VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xE0A1 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("SKNP V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("UNK  EX NN"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        for (uint16_t nn = 0; nn <= 0x0F; nn++) {
+            if (nn == 0x9E || nn == 0xA1)
+                continue;
+            uint16_t instruction = 0xE000 | (x << 8) | nn;
+            CAPTURE(instruction, x, nn);
+            REQUIRE(DASM(instruction) == std::format("UNK  {:02X} {:02X}", (instruction & 0xFF00) >> 8 , (instruction & 0xFF)));
+        }
+    }
+}
+
+TEST_CASE(NAME("LD   VX, DT"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF007 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   V{:X}, DT", x));
+    }
+}
+
+TEST_CASE(NAME("LD   VX, K"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF00A | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   V{:X}, K", x));
+    }
+}
+
+TEST_CASE(NAME("LD   DT, VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF015 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   DT, V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("LD   ST, VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF018 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   ST, V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("ADD  I,  VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF01E | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("ADD  I,  V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("LD   F,  VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF029 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   F,  V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("LD   B,  VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF033 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   B,  V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("LD   @I, VX"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF055 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   @I, V{:X}", x));
+    }
+}
+
+TEST_CASE(NAME("LD   VX, @I"), TAG) {
+    for (uint8_t x = 0; x <= 0x0F; x++) {
+        uint16_t instruction = 0xF065 | (x << 8);
+        CAPTURE(instruction, x);
+        REQUIRE(DASM(instruction) == std::format("LD   V{:X}, @I", x));
+    }
+}
