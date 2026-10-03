@@ -43,6 +43,7 @@ FetchContent_MakeAvailable(spdlog SDL3 imgui)
 set(EMU_CORE_SOURCES
   # Emulation
   src/core/emulation/Chip8VM.cpp
+  src/core/emulation/Chip8Dasm.cpp
 )
 
 set(EMU_CORE_DEPS
@@ -63,6 +64,7 @@ if (BUILD_TESTING)
     tests/Chip8OpTests.cpp
     tests/Chip8VmInitTests.cpp
     tests/Chip8DasmTests.cpp
+    tests/Chip8AsmTests.cpp
 
     ${EMU_CORE_SOURCES}
   )
