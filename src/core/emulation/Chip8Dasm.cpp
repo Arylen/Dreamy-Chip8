@@ -4,13 +4,11 @@
 #include <string>
 
 namespace dc8::core::emulation {
-    std::string disassembleInstruction(uint16_t instruction) {
-        Chip8Op op { .raw = instruction };
-
+    std::string disassembleInstruction(const Chip8Op& op) {
         switch (op.getFamily()) {
             case 0x0:
-                if (op.raw == 0x00E0) return std::format("CLS");
-                if (op.raw == 0x00EE) return std::format("RET");
+                if (op.getRaw() == 0x00E0) return std::format("CLS");
+                if (op.getRaw() == 0x00EE) return std::format("RET");
                 return std::format("SYS  {:04X}", op.getNNN());
             case 0x1: return std::format("JP   {:04X}", op.getNNN());
             case 0x2: return std::format("CALL {:04X}", op.getNNN());

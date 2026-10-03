@@ -4,5 +4,5 @@
 #include <string>
 
 namespace dc8::core::emulation {
-    std::string disassembleInstruction(uint16_t instruction);
+    std::string disassembleInstruction(const Chip8Op& op);
 }

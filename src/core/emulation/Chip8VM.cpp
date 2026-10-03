@@ -40,15 +40,13 @@ namespace dc8::core::emulation {
     }
 
     void Chip8VM::cycle() {
-        Chip8Op instruction {
-            .raw = readMem16(pc_)
-        };
+        Chip8Op op(readMem16(pc_));
 
-        log::trace("[VM_TRACE] {:04X}   {:02X} {:02X}", pc_, (instruction.raw & 0xFF00) >> 8, instruction.raw & 0xFF);
+        log::trace("[VM_TRACE] {:04X}   {:02X} {:02X}", pc_, op.getHi(), op.getLo());
 
         pc_ += 2;
 
-        execute(instruction);
+        execute(op);
     }
 
     void Chip8VM::execute(Chip8Op op) {

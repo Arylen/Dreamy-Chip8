@@ -1,11 +1,12 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "core/emulation/Chip8Dasm.h"
+#include "core/emulation/Chip8Op.h"
 #include <cstdint>
 #include <format>
 #include <algorithm>
 
-#define DASM dc8::core::emulation::disassembleInstruction
+#define DASM(raw) dc8::core::emulation::disassembleInstruction(dc8::core::emulation::Chip8Op(raw))
 constexpr const char* TAG = "[DASM]";
 #define NAME(name) std::format("{} {}", TAG, #name)
 
