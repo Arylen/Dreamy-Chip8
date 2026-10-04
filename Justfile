@@ -19,7 +19,8 @@ run config=default_config: (build config)
         --target run
 
 [arg("verbose", long, short="v", value="--verbose")]
-test config=default_config verbose="": (configure config)
+[arg("regex", long, short="r", value="--regex")]
+test config=default_config verbose="" regex="": (configure config)
     cmake --build {{build_dir}} \
         --config {{config}} \
         --target dreamy_chip8_tests \
@@ -28,6 +29,7 @@ test config=default_config verbose="": (configure config)
     ctest --test-dir {{build_dir}} \
         -C {{config}} \
         --output-on-failure \
+        --tests-regex {{regex}} \
         {{verbose}}
 
 clean:
