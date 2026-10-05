@@ -44,6 +44,7 @@ set(EMU_CORE_SOURCES
   # Emulation
   src/core/emulation/Chip8VM.cpp
   src/core/emulation/Chip8Dasm.cpp
+  src/core/emulation/Chip8Asm.cpp
 )
 
 set(EMU_CORE_DEPS
