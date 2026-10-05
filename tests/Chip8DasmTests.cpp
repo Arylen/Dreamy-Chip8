@@ -352,19 +352,19 @@ TEST_CASE(NAME("LD   B,  VX"), TAG) {
     }
 }
 
-TEST_CASE(NAME("LD   @I, VX"), TAG) {
+TEST_CASE(NAME("LD   I,  VX"), TAG) {
     for (uint8_t x = 0; x <= 0x0F; x++) {
         uint16_t instruction = 0xF055 | (x << 8);
         CAPTURE(instruction, x);
-        REQUIRE(DASM(instruction) == std::format("LD   @I, V{:X}", x));
+        REQUIRE(DASM(instruction) == std::format("LD   I,  V{:X}", x));
     }
 }
 
-TEST_CASE(NAME("LD   VX, @I"), TAG) {
+TEST_CASE(NAME("LD   VX,  I"), TAG) {
     for (uint8_t x = 0; x <= 0x0F; x++) {
         uint16_t instruction = 0xF065 | (x << 8);
         CAPTURE(instruction, x);
-        REQUIRE(DASM(instruction) == std::format("LD   V{:X}, @I", x));
+        REQUIRE(DASM(instruction) == std::format("LD   V{:X}, I", x));
     }
 }
 
