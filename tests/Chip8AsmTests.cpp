@@ -38,3 +38,12 @@ TEST_CASE(NAME("getParts (LD V1, V2, 123)"), TAG) {
     REQUIRE(parts.at(2) == "V2");
     REQUIRE(parts.at(3) == "123");
 }
+
+TEST_CASE(NAME("getParts with extra spaces (LD     V1,  V2,    123)"), TAG) {
+    auto parts = detail::getParts("LD     V1,  V2,    123");
+    REQUIRE(parts.size() == 4);
+    REQUIRE(parts.at(0) == "LD");
+    REQUIRE(parts.at(1) == "V1");
+    REQUIRE(parts.at(2) == "V2");
+    REQUIRE(parts.at(3) == "123");
+}
