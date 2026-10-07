@@ -3,12 +3,13 @@
 #include <regex>
 #include <vector>
 
-
 namespace dc8::core::emulation {
     namespace detail {
         static const std::regex partRegex(R"(\w+)");
         std::vector<std::string> getParts(std::string instruction) {
             std::vector<std::string> parts;
+
+            instruction = instruction.substr(0, instruction.find(';'));
 
             auto iterator = std::sregex_iterator(instruction.begin(), instruction.end(), partRegex);
             for (; iterator != std::sregex_iterator(); ++iterator) {
