@@ -6,42 +6,42 @@ constexpr const char* TAG = "DECODE";
 #define NAME(name) std::format("[{}] {}", TAG, #name)
 
 #pragma region Getters
-TEST_CASE(NAME("X"), TAG) {
+TEST_CASE(NAME("Get X"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getX() == 0x2);
 }
 
-TEST_CASE(NAME("Y"), TAG) {
+TEST_CASE(NAME("Get Y"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getY() == 0x3);
 }
 
-TEST_CASE(NAME("N"), TAG) {
+TEST_CASE(NAME("Get N"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getN() == 0x4);
 }
 
-TEST_CASE(NAME("NN"), TAG) {
+TEST_CASE(NAME("Get NN"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getNN() == 0x34);
 }
 
-TEST_CASE(NAME("NNN"), TAG) {
+TEST_CASE(NAME("Get NNN"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getNNN() == 0x234);
 }
 
-TEST_CASE(NAME("Hi Byte"), TAG) {
+TEST_CASE(NAME("Get Hi Byte"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getHi() == 0x12);
 }
 
-TEST_CASE(NAME("Lo Byte"), TAG) {
+TEST_CASE(NAME("Get Lo Byte"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getLo() == 0x34);
 }
 
-TEST_CASE(NAME("Family"), TAG) {
+TEST_CASE(NAME("Get Family"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getFamily() == 0x1);
 }
