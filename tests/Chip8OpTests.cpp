@@ -5,6 +5,7 @@
 constexpr const char* TAG = "DECODE";
 #define NAME(name) std::format("[{}] {}", TAG, #name)
 
+#pragma region Getters
 TEST_CASE(NAME("X"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getX() == 0x2);
@@ -44,3 +45,84 @@ TEST_CASE(NAME("Family"), TAG) {
     const dc8::core::emulation::Chip8Op op(0x1234);
     REQUIRE(op.getFamily() == 0x1);
 }
+#pragma endregion
+
+#pragma region Setters
+TEST_CASE(NAME("Set X"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setX(0xA);
+    REQUIRE(op.getRaw() == 0x1A34);
+}
+
+TEST_CASE(NAME("Set X masks overflow"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setX(0x1A);
+    REQUIRE(op.getRaw() == 0x1A34);
+}
+
+TEST_CASE(NAME("Set Y"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setY(0xA);
+    REQUIRE(op.getRaw() == 0x12A4);
+}
+
+TEST_CASE(NAME("Set Y masks overflow"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setY(0x1A);
+    REQUIRE(op.getRaw() == 0x12A4);
+}
+
+TEST_CASE(NAME("Set N"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setN(0xA);
+    REQUIRE(op.getRaw() == 0x123A);
+}
+
+TEST_CASE(NAME("Set N masks overflow"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setN(0x1A);
+    REQUIRE(op.getRaw() == 0x123A);
+}
+
+TEST_CASE(NAME("Set NN"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setNN(0xAB);
+    REQUIRE(op.getRaw() == 0x12AB);
+}
+
+TEST_CASE(NAME("Set NNN"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setNNN(0xABC);
+    REQUIRE(op.getRaw() == 0x1ABC);
+}
+
+TEST_CASE(NAME("Set NNN masks overflow"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setNNN(0xFABC);
+    REQUIRE(op.getRaw() == 0x1ABC);
+}
+
+TEST_CASE(NAME("Set Hi Byte"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setHi(0xAB);
+    REQUIRE(op.getRaw() == 0xAB34);
+}
+
+TEST_CASE(NAME("Set Lo Byte"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setLo(0xAB);
+    REQUIRE(op.getRaw() == 0x12AB);
+}
+
+TEST_CASE(NAME("Set Family"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setFamily(0xA);
+    REQUIRE(op.getRaw() == 0xA234);
+}
+
+TEST_CASE(NAME("Set Family masks overflow"), TAG) {
+    dc8::core::emulation::Chip8Op op(0x1234);
+    op.setFamily(0x1A);
+    REQUIRE(op.getRaw() == 0xA234);
+}
+#pragma endregion
