@@ -9,6 +9,7 @@ constexpr const char* TAG = "[ASM]";
 
 using namespace dc8::core::emulation;
 
+#pragma region getParts
 TEST_CASE(NAME("getParts (CLS)"), TAG) {
     auto parts = detail::getParts("CLS");
     REQUIRE(parts.size() == 1);
@@ -74,3 +75,15 @@ TEST_CASE(NAME("getParts strips comments (LD V1, V2, 123 ; Comment)"), TAG) {
     REQUIRE(parts.at(2) == "V2");
     REQUIRE(parts.at(3) == "123");
 }
+#pragma endregion
+
+#pragma region Single Instructions
+TEST_CASE(NAME("CLS"), TAG) {
+    auto op = assembleInstruction("CLS");
+    REQUIRE(op.value().getRaw() == 0x00E0);
+}
+TEST_CASE(NAME("RET"), TAG) {
+    auto op = assembleInstruction("RET");
+    REQUIRE(op.value().getRaw() == 0x00EE);
+}
+#pragma endregion

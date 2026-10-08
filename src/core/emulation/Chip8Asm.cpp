@@ -1,11 +1,76 @@
 #include "Chip8Asm.h"
+#include "core/emulation/Chip8Op.h"
+#include <cctype>
 #include <cstdint>
+#include <exception>
+#include <functional>
 #include <regex>
+#include <stdexcept>
+#include <unordered_map>
 #include <vector>
+#include <optional>
+
+
+namespace {
+    using Chip8Op = dc8::core::emulation::Chip8Op;
+    using AsmEncoder = std::function<std::optional<Chip8Op>(const std::vector<std::string>& parts)>;
+
+    // TODO: Consider passing reference here. Allocations probably aren't a big concern since this is not a hot path.
+    std::string toUpper(std::string text) {
+        for (char& c : text) {
+            c = (char)std::toupper((unsigned char) c);
+        }
+        return text;
+    }
+
+    std::optional<uint16_t> parseHex(std::string value) {
+        size_t parsedCharCount = 0;
+        unsigned long address = 0;
+
+        try {
+            address = std::stoul(value, &parsedCharCount, 16);
+        } catch (const std::exception&) {
+            return std::nullopt;
+        }
+
+        if (
+            parsedCharCount != value.length() ||
+            address >= 0x0FFF
+        ) {
+            return std::nullopt;
+        }
+
+        return (uint16_t)(address & 0x0FFF);
+    }
+
+    // JP NNN  -  1NNN
+    Chip8Op asmJp(std::vector<std::string> parts) {
+        if (parts.size() != 2) {
+            throw std::invalid_argument("Invalid amount of arguments for JP assembly.");
+        }
+
+        std::optional<uint16_t> jpAddr = parseHex(parts[1]);
+        if (!jpAddr.has_value()) {
+            throw std::invalid_argument("Target for JP NNN could not be parsed as hex.");
+        }
+
+        Chip8Op op;
+        op.setFamily(0x1);
+        op.setNNN(jpAddr.value());
+        return op;
+    }
+
+    static const std::unordered_map<std::string, AsmEncoder> encoderLut_ = {
+        {"CLS", [](const std::vector<std::string>&) -> Chip8Op { return Chip8Op(0x00E0); } },
+        {"RET", [](const std::vector<std::string>&) -> Chip8Op { return Chip8Op(0x00EE); } },
+        {"JP", asmJp },
+    };
+}
 
 namespace dc8::core::emulation {
     namespace detail {
         static const std::regex partRegex(R"(\w+)");
+
         std::vector<std::string> getParts(std::string instruction) {
             std::vector<std::string> parts;
 
@@ -18,13 +83,34 @@ namespace dc8::core::emulation {
 
             return parts;
         }
+
+        AsmEncoder getEncoder(std::string family) {
+            auto uppercaseFamily = toUpper(family);
+            auto hasEncoder = encoderLut_.contains(uppercaseFamily);
+            if (hasEncoder) {
+                return encoderLut_.at(uppercaseFamily);
+            }
+            throw std::invalid_argument("Invalid instruction.");
+        }
     }
 
-    uint16_t Chip8Asm::assembleInstruction(std::string input) {
-        return 0x0000;
+    // Note: Empty instruction is a valid result in some cases.
+    std::optional<Chip8Op> assembleInstruction(std::string instruction) {
+        auto parts = detail::getParts(instruction);
+        if (parts.empty()) {
+            return std::nullopt;
+        }
+
+        try {
+            AsmEncoder encoder = detail::getEncoder(parts[0]);
+            return encoder(parts);
+        } catch (std::exception& exception) {
+            // Valid error here.
+            throw exception;
+        }
     }
 
-    std::vector<uint16_t> Chip8Asm::assembleProgram(std::vector<std::string> program) {
-        return std::vector<uint16_t>();
+    std::vector<Chip8Op> assembleProgram(std::vector<std::string> program) {
+        return std::vector<Chip8Op>();
     }
 }
