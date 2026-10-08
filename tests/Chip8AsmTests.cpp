@@ -1,5 +1,6 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include "catch2/catch_message.hpp"
 #include "core/emulation/Chip8Asm.h"
 
 #include <format>
@@ -85,5 +86,14 @@ TEST_CASE(NAME("CLS"), TAG) {
 TEST_CASE(NAME("RET"), TAG) {
     auto op = assembleInstruction("RET");
     REQUIRE(op.value().getRaw() == 0x00EE);
+}
+TEST_CASE(NAME("JP NNN"), TAG) {
+    for (size_t i = 0; i <= 0xFFF; i++) {
+        auto instruction = std::format("JP {:03X}", i);
+        CAPTURE(instruction);
+        auto op = assembleInstruction(instruction);
+        REQUIRE(op.value().getFamily() == 0x1);
+        REQUIRE(op.value().getNNN() == i);
+    }
 }
 #pragma endregion

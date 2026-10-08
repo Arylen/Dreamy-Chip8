@@ -23,21 +23,22 @@ namespace {
         return text;
     }
 
-    std::optional<uint16_t> parseHex(std::string value) {
+    uint16_t parseHex(std::string value, uint16_t maximum = 0x0FFF) {
         size_t parsedCharCount = 0;
         unsigned long address = 0;
 
         try {
             address = std::stoul(value, &parsedCharCount, 16);
         } catch (const std::exception&) {
-            return std::nullopt;
+            throw std::invalid_argument("Value could not be parsed as hex.");
         }
 
-        if (
-            parsedCharCount != value.length() ||
-            address >= 0x0FFF
-        ) {
-            return std::nullopt;
+        if (parsedCharCount != value.length()) {
+            throw std::invalid_argument("Value did not match expected length comparing chars to bytes.");
+        }
+
+        if (address > maximum) {
+            throw std::invalid_argument("Value parsed exceeded maximum");
         }
 
         return (uint16_t)(address & 0x0FFF);
@@ -49,14 +50,11 @@ namespace {
             throw std::invalid_argument("Invalid amount of arguments for JP assembly.");
         }
 
-        std::optional<uint16_t> jpAddr = parseHex(parts[1]);
-        if (!jpAddr.has_value()) {
-            throw std::invalid_argument("Target for JP NNN could not be parsed as hex.");
-        }
+        uint16_t jpAddr = parseHex(parts[1], 0x0FFF);
 
         Chip8Op op;
         op.setFamily(0x1);
-        op.setNNN(jpAddr.value());
+        op.setNNN(jpAddr);
         return op;
     }
 
@@ -106,7 +104,7 @@ namespace dc8::core::emulation {
             return encoder(parts);
         } catch (std::exception& exception) {
             // Valid error here.
-            throw exception;
+            throw;
         }
     }
 
