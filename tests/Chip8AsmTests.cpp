@@ -3,7 +3,9 @@
 #include "catch2/catch_message.hpp"
 #include "core/emulation/Chip8Asm.h"
 
+#include <cstdint>
 #include <format>
+#include <stdexcept>
 
 constexpr const char* TAG = "[ASM]";
 #define NAME(name) std::format("{} {}", TAG, #name)
@@ -83,10 +85,45 @@ TEST_CASE(NAME("CLS"), TAG) {
     auto op = assembleInstruction("CLS");
     REQUIRE(op.value().getRaw() == 0x00E0);
 }
+
 TEST_CASE(NAME("RET"), TAG) {
     auto op = assembleInstruction("RET");
     REQUIRE(op.value().getRaw() == 0x00EE);
 }
+
+TEST_CASE(NAME("SYS NNN"), TAG) {
+    for (size_t i = 0; i <= 0xFFF; i++) {
+        if (i == 0x0E0 || i == 0x0EE) {
+            continue;
+        }
+        auto instruction = std::format("SYS {:03X}", i);
+        CAPTURE(instruction);
+        auto op = assembleInstruction(instruction);
+        REQUIRE(op.value().getFamily() == 0x0);
+        REQUIRE(op.value().getNNN() == i);
+    }
+}
+TEST_CASE(NAME("SYS 0E0 - Throws"), TAG) {
+    REQUIRE_THROWS_AS(assembleInstruction("SYS 0E0"), std::invalid_argument);
+}
+
+TEST_CASE(NAME("SYS 0EE - Throws"), TAG) {
+    REQUIRE_THROWS_AS(assembleInstruction("SYS 0EE"), std::invalid_argument);
+}
+
+TEST_CASE(NAME("CALL NNN"), TAG) {
+    for (size_t i = 0; i <= 0xFFF; i++) {
+        if (i == 0x0E0 || i == 0x0EE) {
+            continue;
+        }
+        auto instruction = std::format("CALL {:03X}", i);
+        CAPTURE(instruction);
+        auto op = assembleInstruction(instruction);
+        REQUIRE(op.value().getFamily() == 0x2);
+        REQUIRE(op.value().getNNN() == i);
+    }
+}
+
 TEST_CASE(NAME("JP NNN"), TAG) {
     for (size_t i = 0; i <= 0xFFF; i++) {
         auto instruction = std::format("JP {:03X}", i);
@@ -96,4 +133,52 @@ TEST_CASE(NAME("JP NNN"), TAG) {
         REQUIRE(op.value().getNNN() == i);
     }
 }
+
+TEST_CASE(NAME("JP V0, NNN"), TAG) {
+    for (size_t i = 0; i <= 0xFFF; i++) {
+        auto instruction = std::format("JP V0, {:03X}", i);
+        CAPTURE(instruction);
+        auto op = assembleInstruction(instruction);
+        REQUIRE(op.value().getFamily() == 0xB);
+        REQUIRE(op.value().getNNN() == i);
+    }
+}
+
+TEST_CASE(NAME("SE VX, VY"), TAG) {
+    for (uint8_t x = 0; x <= 0xF; x++) {
+        for (uint8_t y = 0; y <= 0xF; y++) {
+            auto instruction = std::format("SE V{:X}, V{:X}", x, y);
+            CAPTURE(instruction);
+            auto op = assembleInstruction(instruction);
+            REQUIRE(op.value().getFamily() == 0x5);
+            REQUIRE(op.value().getX() == x);
+            REQUIRE(op.value().getY() == y);
+            REQUIRE(op.value().getN() == 0);
+        }
+    }
+}
+
+// TEST_CASE(NAME("SE VX, NN"), TAG) {
+//     for (uint8_t x = 0; x <= 0xF; x++) {
+//         for (uint16_t nn = 0; nn <= 0xF; nn++) {
+//             auto instruction = std::format("SE V{:X}, {:02X}", x, nn);
+//             CAPTURE(instruction);
+//             auto op = assembleInstruction(instruction);
+//             REQUIRE(op.value().getFamily() == 0x3);
+//             REQUIRE(op.value().getX() == x);
+//             REQUIRE(op.value().getNN() == nn);
+//         }
+//     }
+// }
+
+TEST_CASE(NAME("JP VX, NNN - Throws on non-0 register"), TAG) {
+    for (uint8_t i = 1; i <= 0xF; i++) {
+        REQUIRE_THROWS_AS(assembleInstruction("JP V{:X}, 123"), std::invalid_argument);
+    }
+}
+
+TEST_CASE(NAME("Unknown Instruction"), TAG) {
+    REQUIRE_THROWS_AS(assembleInstruction("GOBBLE"), std::invalid_argument);
+}
+
 #pragma endregion
