@@ -175,6 +175,37 @@ TEST_CASE(NAME("SE VX, NN"), TAG) {
     }
 }
 
+TEST_CASE(NAME("SNE VX, VY"), TAG) {
+    for (uint8_t x = 0; x <= 0xF; x++) {
+        for (uint8_t y = 0; y <= 0xF; y++) {
+            auto instruction = std::format("SNE V{:X}, V{:X}", x, y);
+            CAPTURE(instruction);
+            auto op = assembleInstruction(instruction);
+            auto opHex = std::format("{:04X}", op->getRaw());
+            CAPTURE(opHex);
+            REQUIRE(op.value().getFamily() == 0x9);
+            REQUIRE(op.value().getX() == x);
+            REQUIRE(op.value().getY() == y);
+            REQUIRE(op.value().getN() == (uint8_t)0);
+        }
+    }
+}
+
+TEST_CASE(NAME("SNE VX, NN"), TAG) {
+    for (uint8_t x = 0; x <= 0xF; x++) {
+        for (uint16_t nn = 0; nn <= 0xF; nn++) {
+            auto instruction = std::format("SNE V{:X}, {:02X}", x, nn);
+            CAPTURE(instruction);
+            auto op = assembleInstruction(instruction);
+            auto resultHex = std::format("{:04X}", op->getRaw());
+            CAPTURE(resultHex);
+            REQUIRE(op.value().getFamily() == 0x4);
+            REQUIRE(op.value().getX() == x);
+            REQUIRE(op.value().getNN() == nn);
+        }
+    }
+}
+
 TEST_CASE(NAME("JP VX, NNN - Throws on non-0 register"), TAG) {
     for (uint8_t i = 1; i <= 0xF; i++) {
         REQUIRE_THROWS_AS(assembleInstruction(std::format("JP V{:X}, 123", i)), std::invalid_argument);

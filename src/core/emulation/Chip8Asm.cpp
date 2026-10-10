@@ -213,6 +213,34 @@ namespace {
         return op;
     }
 
+    // 4xkk  -  SNE VX, NN
+    // 9xy0  -  SNE VX, VY
+    Chip8Op asmSne(std::vector<std::string> parts) {
+        if (parts.size() != 3) {
+            throw std::invalid_argument("Invalid amount of arguments for JP assembly.");
+        }
+        if (!isRegister(parts[1])) {
+            throw std::invalid_argument("First operand was not a register.");
+        }
+        if (!isRegister(parts[2]) && !isHexString(parts[2])) {
+            throw std::invalid_argument("Second operand was not a register or a hex string.");
+        }
+        bool hasImmediate = !isRegister(parts[2]);
+
+        Chip8Op op;
+
+        op.setFamily(hasImmediate ? 0x4 : 0x9);
+        op.setX(parseRegister(parts[1]));
+        if (hasImmediate) {
+            op.setNN(parseHex(parts[2]));
+        } else {
+            op.setY(parseRegister(parts[2]));
+            op.setN(0);
+        }
+
+        return op;
+    }
+
     static const std::unordered_map<std::string, AsmEncoder> encoderLut_ = {
         {"CLS", [](const std::vector<std::string>&) -> Chip8Op { return Chip8Op(0x00E0); } },
         {"RET", [](const std::vector<std::string>&) -> Chip8Op { return Chip8Op(0x00EE); } },
@@ -220,6 +248,7 @@ namespace {
         {"JP", asmJp },
         {"CALL", asmCall },
         {"SE", asmSe },
+        {"SNE", asmSne },
     };
 }
 
