@@ -150,26 +150,30 @@ TEST_CASE(NAME("SE VX, VY"), TAG) {
             auto instruction = std::format("SE V{:X}, V{:X}", x, y);
             CAPTURE(instruction);
             auto op = assembleInstruction(instruction);
+            auto opHex = std::format("{:04X}", op->getRaw());
+            CAPTURE(opHex);
             REQUIRE(op.value().getFamily() == 0x5);
             REQUIRE(op.value().getX() == x);
             REQUIRE(op.value().getY() == y);
-            REQUIRE(op.value().getN() == 0);
+            REQUIRE(op.value().getN() == (uint8_t)0);
         }
     }
 }
 
-// TEST_CASE(NAME("SE VX, NN"), TAG) {
-//     for (uint8_t x = 0; x <= 0xF; x++) {
-//         for (uint16_t nn = 0; nn <= 0xF; nn++) {
-//             auto instruction = std::format("SE V{:X}, {:02X}", x, nn);
-//             CAPTURE(instruction);
-//             auto op = assembleInstruction(instruction);
-//             REQUIRE(op.value().getFamily() == 0x3);
-//             REQUIRE(op.value().getX() == x);
-//             REQUIRE(op.value().getNN() == nn);
-//         }
-//     }
-// }
+TEST_CASE(NAME("SE VX, NN"), TAG) {
+    for (uint8_t x = 0; x <= 0xF; x++) {
+        for (uint16_t nn = 0; nn <= 0xF; nn++) {
+            auto instruction = std::format("SE V{:X}, {:02X}", x, nn);
+            CAPTURE(instruction);
+            auto op = assembleInstruction(instruction);
+            auto resultHex = std::format("{:04X}", op->getRaw());
+            CAPTURE(resultHex);
+            REQUIRE(op.value().getFamily() == 0x3);
+            REQUIRE(op.value().getX() == x);
+            REQUIRE(op.value().getNN() == nn);
+        }
+    }
+}
 
 TEST_CASE(NAME("JP VX, NNN - Throws on non-0 register"), TAG) {
     for (uint8_t i = 1; i <= 0xF; i++) {

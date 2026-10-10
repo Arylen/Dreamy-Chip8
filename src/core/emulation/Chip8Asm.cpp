@@ -51,27 +51,27 @@ namespace {
         return true;
     }
 
-    uint8_t parseRegister(std::string value) {
-        if (!isRegister(value)) {
-            throw std::invalid_argument("Attempt to parse register that failed to parse.");
-        }
-        return (uint8_t)(value[1] - '0');
-    }
-
     uint8_t parseHexNibble(char v) {
         if (!isHexChar(v)) {
             throw std::invalid_argument("Hex byte attempted to be parsed was not even hex.");
         }
         if (v >= 'a' && v <= 'f') {
-            return v - 'a';
+            return (v - 'a') + 10;
         }
         if (v >= 'A' && v <= 'F') {
-            return v - 'A';
+            return (v - 'A') + 10;
         }
         if (v >= '0' && v <= '9') {
             return v - '0';
         }
         throw std::invalid_argument("Impossible situation. Single-char hex got through and not returned above.");
+    }
+
+    uint8_t parseRegister(std::string value) {
+        if (!isRegister(value)) {
+            throw std::invalid_argument("Attempt to parse register that failed to parse.");
+        }
+        return parseHexNibble(value[1]);
     }
 
     uint16_t parseHex(std::string value, uint16_t maximum = 0x0FFF) {
@@ -193,8 +193,8 @@ namespace {
         if (!isRegister(parts[1])) {
             throw std::invalid_argument("First operand was not a register.");
         }
-        if (!(isRegister(parts[2]) || !isHexString(parts[2]))) {
-            throw std::invalid_argument("Second operand was not a register.");
+        if (!isRegister(parts[2]) && !isHexString(parts[2])) {
+            throw std::invalid_argument("Second operand was not a register or a hex string.");
         }
 
         bool hasImmediate = !isRegister(parts[2]);
