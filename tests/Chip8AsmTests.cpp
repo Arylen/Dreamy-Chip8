@@ -177,7 +177,7 @@ TEST_CASE(NAME("SE VX, NN"), TAG) {
 
 TEST_CASE(NAME("JP VX, NNN - Throws on non-0 register"), TAG) {
     for (uint8_t i = 1; i <= 0xF; i++) {
-        REQUIRE_THROWS_AS(assembleInstruction("JP V{:X}, 123"), std::invalid_argument);
+        REQUIRE_THROWS_AS(assembleInstruction(std::format("JP V{:X}, 123", i)), std::invalid_argument);
     }
 }
 
